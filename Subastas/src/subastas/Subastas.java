@@ -19,8 +19,9 @@ public class Subastas {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        DataBaseConnection x= DataBaseConnection.getInstance();
-        new AgentMenu().setVisible(true);
+        //DataBaseConnection x= DataBaseConnection.getInstance();
+        //x.setConnection(null, null);
+        new LogIn().setVisible(true);
     }
     
 }

@@ -115,7 +115,7 @@ public class AdministratorMenu extends javax.swing.JFrame {
     private void _btn_CreateAgent1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_CreateAgent1ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        new AttributesUser(this, 3, 0).setVisible(true);
+        new AttributesUser(this, 2, 0).setVisible(true);
     }//GEN-LAST:event__btn_CreateAgent1ActionPerformed
 
     private void _btn_SuspendAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_SuspendAgentActionPerformed

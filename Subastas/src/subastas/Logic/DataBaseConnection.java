@@ -5,6 +5,9 @@
  */
 package subastas.Logic;
 //Asda
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -22,27 +25,15 @@ import javax.swing.JOptionPane;
 public class DataBaseConnection {
     
     private static DataBaseConnection Instance;
-    private String DataBaseURL= "jdbc:sqlserver://localhost;integratedSecurity=true;database=SUBASTAS";
-    private Connection Connection;
+    private String DataBaseURL;//= "jdbc:sqlserver://localhost;integratedSecurity=true;database=SUBASTAS";
+    private static Connection Connection;
     private CallableStatement StoredProcCall;
     private boolean ErrorOcurred=false;
+    private int _UserIdentification = 0;
+    private String _UserAlias = "";
     
     private DataBaseConnection(){
-        try {
-            Connection = DriverManager.getConnection(DataBaseURL);
-            if (Connection != null) {
-                // Imprimir datos de conexión
-                System.out.println("Connection Succesful:");
-                DatabaseMetaData dm = (DatabaseMetaData) Connection.getMetaData();
-                System.out.println("Driver name: " + dm.getDriverName());
-                System.out.println("Driver version: " + dm.getDriverVersion());
-                System.out.println("Product name: " + dm.getDatabaseProductName());
-                System.out.println("Product version: " + dm.getDatabaseProductVersion());
-            }
-        } catch (SQLException ex) {
-                  sendError("No se pudo hacer la coneccion a la base");
-
-        }
+        
     }
     
     public static DataBaseConnection getInstance(){
@@ -50,8 +41,47 @@ public class DataBaseConnection {
             Instance=new DataBaseConnection();
         return Instance;   
     }
+    public boolean setConnection(String pUsername, String pPassword){
+        if(Connection == null){
+            try {
+                //String URL = "jdbc:sqlserver://localhost;user="+pUsername+";password="+pPassword+";database=SUBASTAS";
+                Connection = DriverManager.getConnection("jdbc:sqlserver://localhost;integratedSecurity=true;database=SUBASTAS");
+                // Imprimir datos de conexión
+                System.out.println("Connection Succesful:");
+                DatabaseMetaData dm = (DatabaseMetaData) Connection.getMetaData();
+                System.out.println("Driver name: " + dm.getDriverName());
+                System.out.println("Driver version: " + dm.getDriverVersion());
+                System.out.println("Product name: " + dm.getDatabaseProductName());
+                System.out.println("Product version: " + dm.getDatabaseProductVersion());
+                return false;
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+                sendError("Your username or password are incorrect");
+                return true;
+
+            }
+        }
+        return false;
+    }
     private void sendError(String pMessage){
         JOptionPane.showMessageDialog(null, pMessage);
+    }
+    public int getUser(String pAlias){
+        try{ 
+            StoredProcCall = Connection.prepareCall("{? = call USP_GetUsuarioAlias(?,?)}");
+            StoredProcCall.registerOutParameter(1, Types.INTEGER);
+            StoredProcCall.setString(2,pAlias);
+            StoredProcCall.registerOutParameter(3, Types.INTEGER);
+            StoredProcCall.execute();
+            int type = StoredProcCall.getInt(1);
+            _UserIdentification = StoredProcCall.getInt(3);
+            _UserAlias = pAlias;
+            return type;
+        } catch (SQLException ex) {
+            
+            sendError(ex.getMessage() +" "+ ex.getErrorCode());
+            return 0;
+        }
     }
     public boolean createAgent(int pIdentification, String pNickName, String pPassword, 
             String pName, String pLastName1, String pLastName2){
@@ -68,6 +98,7 @@ public class DataBaseConnection {
             StoredProcCall.setString(7, pLastName2);
             StoredProcCall.execute();
             int error = StoredProcCall.getInt(1);
+            System.out.println(error);
             if(error == -4){
                 sendError("An user with that Identification or Alias already exists");
                 return true;
@@ -118,16 +149,9 @@ public class DataBaseConnection {
     }
     public int getAgent(int pIdentification){
         try{ 
-            StoredProcCall = Connection.prepareCall("{? = call USP_GetUsuario(?,?,?,?,?,?,?,?)}");
+            StoredProcCall = Connection.prepareCall("{? = call USP_GetUsuario(?)}");
             StoredProcCall.registerOutParameter(1, Types.INTEGER);
             StoredProcCall.setInt(2,pIdentification);
-            StoredProcCall.registerOutParameter(3, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(4, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(5, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(6, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(7, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(8, Types.BIT);
-            StoredProcCall.registerOutParameter(9, Types.VARCHAR);
             StoredProcCall.execute();
             int type = StoredProcCall.getInt(1);
             if(type == -5){
@@ -209,16 +233,9 @@ public class DataBaseConnection {
     }
     public int getParticipant(int pIdentification){
         try{ 
-            StoredProcCall = Connection.prepareCall("{? = call USP_GetUsuario(?,?,?,?,?,?,?,?)}");
+            StoredProcCall = Connection.prepareCall("{? = call USP_GetUsuario(?)}");
             StoredProcCall.registerOutParameter(1, Types.INTEGER);
             StoredProcCall.setInt(2,pIdentification);
-            StoredProcCall.registerOutParameter(3, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(4, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(5, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(6, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(7, Types.VARCHAR);
-            StoredProcCall.registerOutParameter(8, Types.BIT);
-            StoredProcCall.registerOutParameter(9, Types.VARCHAR);
             StoredProcCall.execute();
             int type = StoredProcCall.getInt(1);
             if(type == -7){
@@ -270,8 +287,30 @@ public class DataBaseConnection {
             return false;
         } catch (SQLException ex) {
             
-            sendError(ex.getMessage() +" "+ ex.getErrorCode());
+            sendError(ex.getMessage());
             return true;
         }
     }
+    public boolean createSubasta(Auction pAuction) throws FileNotFoundException{
+        try{
+            StoredProcCall = Connection.prepareCall("{call USP_CreateSubasta(?,?,?,?,?,?,?,?,?)}");
+            StoredProcCall.setString(1, pAuction.getItemName());
+            StoredProcCall.setString(2, pAuction.getDescription());
+            File file = new File(pAuction.getImage());
+            FileInputStream stream = new FileInputStream(file);
+            StoredProcCall.setBinaryStream(3, stream, (int) file.length());
+            StoredProcCall.setString(4, pAuction.getSubCategory());
+            StoredProcCall.setString(5, pAuction.getCategory());
+            StoredProcCall.setString(6, pAuction.getDeliverDetails());
+            StoredProcCall.setString(7, pAuction.getLastDate());
+            StoredProcCall.setString(8, this._UserAlias);
+            StoredProcCall.setInt(9, pAuction.getPrice());
+            StoredProcCall.execute();
+            return false;
+        }catch (SQLException ex){
+            sendError(ex.getMessage());
+            return true;
+        }
+    }
+	
 }

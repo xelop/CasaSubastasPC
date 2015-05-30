@@ -5,6 +5,9 @@
  */
 package subastas.UI;
 
+import javax.swing.JOptionPane;
+import subastas.Logic.DataBaseConnection;
+
 /**
  *
  * @author Xelop
@@ -32,7 +35,8 @@ public class LogIn extends javax.swing.JFrame {
         _txt_Username = new javax.swing.JTextField();
         _txt_Password = new javax.swing.JTextField();
         _btn_Login = new javax.swing.JButton();
-        _btn_NewUser = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        _chk_administration = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,34 +45,48 @@ public class LogIn extends javax.swing.JFrame {
         _lbl_Password.setText("Password:");
 
         _btn_Login.setText("Login");
+        _btn_Login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_LoginActionPerformed(evt);
+            }
+        });
 
-        _btn_NewUser.setText("Create Username");
+        jLabel1.setText("CASA DE SUBASTAS");
+
+        _chk_administration.setText(" Administration");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(_btn_NewUser)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(_btn_Login)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_lbl_Username)
-                    .addComponent(_lbl_Password))
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(_txt_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(96, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(_lbl_Username)
+                                    .addComponent(_lbl_Password))
+                                .addGap(46, 46, 46)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(_txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(_txt_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(_chk_administration)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(142, 142, 142)
+                        .addComponent(jLabel1)))
+                .addContainerGap(94, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(_btn_Login)
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addComponent(jLabel1)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(_lbl_Username)
                     .addComponent(_txt_Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -76,15 +94,39 @@ public class LogIn extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_lbl_Password)
                     .addComponent(_txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_btn_Login)
-                    .addComponent(_btn_NewUser))
-                .addContainerGap())
+                    .addComponent(_chk_administration))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void _btn_LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_LoginActionPerformed
+        // TODO add your handling code here:
+        DataBaseConnection connection = DataBaseConnection.getInstance();
+        boolean error;
+        if(_chk_administration.isSelected())
+            error=connection.setConnection(_txt_Username.getText(),_txt_Password.getText());
+        else
+            error=connection.setConnection("participante","participante");
+        
+        if(!error){
+            int type = connection.getUser(_txt_Username.getText());
+            if(type == -5){
+                new AgentMenu().setVisible(true);
+                this.dispose();
+            }else if(type == -6){
+                new AdministratorMenu().setVisible(true);
+                this.dispose();
+            }else if(type == -7){
+                new ParticipantsMenu().setVisible(true);
+                this.dispose();
+            }
+        }
+    }//GEN-LAST:event__btn_LoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -123,10 +165,11 @@ public class LogIn extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btn_Login;
-    private javax.swing.JButton _btn_NewUser;
+    private javax.swing.JCheckBox _chk_administration;
     private javax.swing.JLabel _lbl_Password;
     private javax.swing.JLabel _lbl_Username;
     private javax.swing.JTextField _txt_Password;
     private javax.swing.JTextField _txt_Username;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
