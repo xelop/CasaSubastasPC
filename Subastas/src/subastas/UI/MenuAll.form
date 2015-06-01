@@ -112,21 +112,33 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="List Auctions"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_ListAuctionsActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="_btn_BidsHistoryOfProduct">
           <Properties>
             <Property name="text" type="java.lang.String" value="Bids History of Product"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_BidsHistoryOfProductActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="_btn_AuctionsHistoryforUser">
           <Properties>
             <Property name="text" type="java.lang.String" value="Auctions History of User"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_AuctionsHistoryforUserActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="_btn_WonBidsHistoryforUser">
           <Properties>
             <Property name="text" type="java.lang.String" value="Won Bids History of User"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_WonBidsHistoryforUserActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="_btn_Back">
           <Properties>

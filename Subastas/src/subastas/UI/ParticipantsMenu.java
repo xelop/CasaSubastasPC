@@ -39,10 +39,25 @@ public class ParticipantsMenu extends javax.swing.JFrame {
         _lbl_Participants.setText("PARTICIPANTS");
 
         _btn_BeginAuction.setText("Start Auction");
+        _btn_BeginAuction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_BeginAuctionActionPerformed(evt);
+            }
+        });
 
         _btn_RestartAuction.setText("Restart Auction");
+        _btn_RestartAuction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_RestartAuctionActionPerformed(evt);
+            }
+        });
 
         _btn_Bid.setText("Bid");
+        _btn_Bid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_BidActionPerformed(evt);
+            }
+        });
 
         _btn_More.setText("More");
         _btn_More.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +123,24 @@ public class ParticipantsMenu extends javax.swing.JFrame {
         this.setVisible(false);
         new MenuAll(this).setVisible(true);
     }//GEN-LAST:event__btn_MoreActionPerformed
+
+    private void _btn_BeginAuctionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_BeginAuctionActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new CreateAuction(this,1,0).setVisible(true);
+    }//GEN-LAST:event__btn_BeginAuctionActionPerformed
+
+    private void _btn_RestartAuctionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_RestartAuctionActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new ListInactiveAuctions(this,1,"","",0).setVisible(true);
+    }//GEN-LAST:event__btn_RestartAuctionActionPerformed
+
+    private void _btn_BidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_BidActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new FindAuctions(this, 2).setVisible(true);
+    }//GEN-LAST:event__btn_BidActionPerformed
 
     /**
      * @param args the command line arguments

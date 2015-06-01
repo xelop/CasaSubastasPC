@@ -92,16 +92,25 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Start Auction"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_BeginAuctionActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="_btn_RestartAuction">
           <Properties>
             <Property name="text" type="java.lang.String" value="Restart Auction"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_RestartAuctionActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="_btn_Bid">
           <Properties>
             <Property name="text" type="java.lang.String" value="Bid"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_BidActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="_btn_More">
           <Properties>

@@ -57,12 +57,32 @@ public class MenuAll extends javax.swing.JFrame {
         _lbl_Other.setText("OTHER");
 
         _btn_ListAuctions.setText("List Auctions");
+        _btn_ListAuctions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_ListAuctionsActionPerformed(evt);
+            }
+        });
 
         _btn_BidsHistoryOfProduct.setText("Bids History of Product");
+        _btn_BidsHistoryOfProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_BidsHistoryOfProductActionPerformed(evt);
+            }
+        });
 
         _btn_AuctionsHistoryforUser.setText("Auctions History of User");
+        _btn_AuctionsHistoryforUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_AuctionsHistoryforUserActionPerformed(evt);
+            }
+        });
 
         _btn_WonBidsHistoryforUser.setText("Won Bids History of User");
+        _btn_WonBidsHistoryforUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_WonBidsHistoryforUserActionPerformed(evt);
+            }
+        });
 
         _btn_Back.setText("Back");
         _btn_Back.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +151,30 @@ public class MenuAll extends javax.swing.JFrame {
         this.previuos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event__btn_BackActionPerformed
+
+    private void _btn_ListAuctionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_ListAuctionsActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new FindAuctions(previuos, 3).setVisible(true);
+    }//GEN-LAST:event__btn_ListAuctionsActionPerformed
+
+    private void _btn_BidsHistoryOfProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_BidsHistoryOfProductActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new GetIdentification(previuos, 3).setVisible(true);
+    }//GEN-LAST:event__btn_BidsHistoryOfProductActionPerformed
+
+    private void _btn_AuctionsHistoryforUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_AuctionsHistoryforUserActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new GetIdentification((previuos), 4).setVisible(true);
+    }//GEN-LAST:event__btn_AuctionsHistoryforUserActionPerformed
+
+    private void _btn_WonBidsHistoryforUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_WonBidsHistoryforUserActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new GetIdentification(previuos, 5).setVisible(true);
+    }//GEN-LAST:event__btn_WonBidsHistoryforUserActionPerformed
 
     /**
      * @param args the command line arguments

@@ -108,6 +108,7 @@ public class LogIn extends javax.swing.JFrame {
         // TODO add your handling code here:
         DataBaseConnection connection = DataBaseConnection.getInstance();
         boolean error;
+        
         if(_chk_administration.isSelected())
             error=connection.setConnection(_txt_Username.getText(),_txt_Password.getText());
         else
@@ -118,12 +119,14 @@ public class LogIn extends javax.swing.JFrame {
             if(type == -5){
                 new AgentMenu().setVisible(true);
                 this.dispose();
-            }else if(type == -6){
+            }else if(type == -6 &&_chk_administration.isSelected()){
                 new AdministratorMenu().setVisible(true);
                 this.dispose();
             }else if(type == -7){
                 new ParticipantsMenu().setVisible(true);
                 this.dispose();
+            }else{
+                connection.setcon();
             }
         }
     }//GEN-LAST:event__btn_LoginActionPerformed

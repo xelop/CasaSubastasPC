@@ -5,6 +5,21 @@
  */
 package subastas.UI;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import subastas.Logic.Auction;
+import subastas.Logic.DataBaseConnection;
+
 /**
  *
  * @author Xelop
@@ -14,8 +29,30 @@ public class CreateAuction extends javax.swing.JFrame {
     /**
      * Creates new form CreateAuction
      */
-    public CreateAuction() {
-        initComponents();
+    JFileChooser _FileChooser;
+    JFrame _Previuos;
+    DataBaseConnection _Connection;
+    int _Action, _IdSubasta, _Price, _Decrease;
+    File _File;
+    
+    public CreateAuction(JFrame pPrevious, int pAction, int pIdSubasta) { //1: create auction 2:restart
+            initComponents();
+            _Previuos = pPrevious;
+            _Connection = DataBaseConnection.getInstance();
+            _Action= pAction;
+            _IdSubasta = pIdSubasta;
+            
+            if(_Action == 1 ){
+                _lbl_Action.setText("CREATE AUCTION");
+            }else if(_Action==2){
+                _lbl_Action.setText("RESTART AUCTION");
+                Integer[] values =_Connection.valuesRestartAuction(pIdSubasta);
+                _Price = values[0];
+                _Decrease = values[1];
+                _txt_Price.setText(String.valueOf(_Price));
+            }
+            
+        
     }
 
     /**
@@ -44,7 +81,10 @@ public class CreateAuction extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         _txa_Description = new javax.swing.JTextArea();
         _lbl_Action = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        _lbl_Images = new javax.swing.JLabel();
+        _btn_LoadImage = new javax.swing.JButton();
+        _btn_Done = new javax.swing.JButton();
+        _btn_Back = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,16 +181,28 @@ public class CreateAuction extends javax.swing.JFrame {
 
         _lbl_Action.setText("CREATE SUBASTA");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 244, Short.MAX_VALUE)
-        );
+        _lbl_Images.setText("IMAGE (optional)");
+
+        _btn_LoadImage.setText("Load Image");
+        _btn_LoadImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_LoadImageActionPerformed(evt);
+            }
+        });
+
+        _btn_Done.setText("Done");
+        _btn_Done.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_DoneActionPerformed(evt);
+            }
+        });
+
+        _btn_Back.setText("Back");
+        _btn_Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_BackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,8 +210,19 @@ public class CreateAuction extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(_btn_LoadImage)
+                            .addComponent(_lbl_Images, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(_btn_Done, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(_btn_Back, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                        .addGap(5, 5, 5))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(207, 207, 207)
                 .addComponent(_lbl_Action)
@@ -171,14 +234,82 @@ public class CreateAuction extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(_lbl_Action)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(_lbl_Images, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(_btn_LoadImage)
+                        .addGap(146, 146, 146)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(_btn_Done)
+                            .addComponent(_btn_Back)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void _btn_LoadImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_LoadImageActionPerformed
+        // TODO add your handling code here:
+            _FileChooser = new JFileChooser();
+            if(_FileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                long fileSizeInBytes = _FileChooser.getSelectedFile().length();
+                // Convert the bytes to Kilobytes (1 KB = 1024 Bytes)
+                long fileSizeInKB = fileSizeInBytes / 1024;
+                if (fileSizeInKB < 25){
+                  try {
+                    BufferedImage img = ImageIO.read(_FileChooser.getSelectedFile());//it must be an image file, otherwise you'll get an exception
+                    this._lbl_Images.setIcon(new ImageIcon(img));
+                    this._lbl_Images.setText("");
+                    _File = _FileChooser.getSelectedFile();
+                    } catch (IOException ex) {
+                        Logger.getLogger(CreateAuction.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Your file exceeds 25K");
+                    _FileChooser= null;
+                    _File = null;
+                }
+            }
+    }//GEN-LAST:event__btn_LoadImageActionPerformed
+
+    private void _btn_BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_BackActionPerformed
+        // TODO add your handling code here:
+        this._Previuos.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event__btn_BackActionPerformed
+
+    private void _btn_DoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_DoneActionPerformed
+        try {
+            // TODO add your handling code here:
+            boolean error = true;
+            if(_Action == 1){
+            Auction auct = new Auction(_txt_ItemName.getText(), _txa_Description.getText(), _File, _txt_Subcategory.getText(),
+                    _txt_Category.getText(), _txt_Delivery.getText(), _txt_Date.getText(),Integer.parseInt(_txt_Price.getText()));
+            
+            error = _Connection.createSubasta(auct);
+            }else if(_Action == 2){
+                if(Integer.parseInt(_txt_Price.getText()) > _Price - _Decrease){
+                    JOptionPane.showMessageDialog(null, "New price must be below: "+ (_Price - _Decrease));
+                }else{
+                    Auction auct = new Auction(_txt_ItemName.getText(), _txa_Description.getText(), _File, _txt_Subcategory.getText(),
+                    _txt_Category.getText(), _txt_Delivery.getText(), _txt_Date.getText(),Integer.parseInt(_txt_Price.getText()));
+                    
+                    _Connection.restartAuction(_IdSubasta);
+                    
+                    error = _Connection.createSubasta(auct);
+                    
+                }
+            }
+            if(!error){
+                this._Previuos.setVisible(true);
+                this.dispose();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CreateAuction.class.getName()).log(Level.SEVERE, null, ex); //no idea
+        }
+    }//GEN-LAST:event__btn_DoneActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,15 +341,19 @@ public class CreateAuction extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateAuction().setVisible(true);
+                //new CreateAuction().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton _btn_Back;
+    private javax.swing.JButton _btn_Done;
+    private javax.swing.JButton _btn_LoadImage;
     private javax.swing.JLabel _lbl_Action;
     private javax.swing.JLabel _lbl_Category;
     private javax.swing.JLabel _lbl_DeliveryDetails;
+    private javax.swing.JLabel _lbl_Images;
     private javax.swing.JLabel _lbl_InitialPrice;
     private javax.swing.JLabel _lbl_ItemDescription;
     private javax.swing.JLabel _lbl_ItemName;
@@ -232,7 +367,6 @@ public class CreateAuction extends javax.swing.JFrame {
     private javax.swing.JTextField _txt_Price;
     private javax.swing.JTextField _txt_Subcategory;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

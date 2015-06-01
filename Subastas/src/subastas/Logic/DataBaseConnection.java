@@ -12,8 +12,10 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -44,10 +46,10 @@ public class DataBaseConnection {
     public boolean setConnection(String pUsername, String pPassword){
         if(Connection == null){
             try {
-                //String URL = "jdbc:sqlserver://localhost;user="+pUsername+";password="+pPassword+";database=SUBASTAS";
-                Connection = DriverManager.getConnection("jdbc:sqlserver://localhost;integratedSecurity=true;database=SUBASTAS");
+           
+                String URL = "jdbc:sqlserver://localhost;user="+pUsername+";password="+pPassword+";database=SUBASTAS";
+                Connection = DriverManager.getConnection(URL);
                 // Imprimir datos de conexión
-                System.out.println("Connection Succesful:");
                 DatabaseMetaData dm = (DatabaseMetaData) Connection.getMetaData();
                 System.out.println("Driver name: " + dm.getDriverName());
                 System.out.println("Driver version: " + dm.getDriverVersion());
@@ -79,7 +81,7 @@ public class DataBaseConnection {
             return type;
         } catch (SQLException ex) {
             
-            sendError(ex.getMessage() +" "+ ex.getErrorCode());
+            sendError(ex.getMessage());
             return 0;
         }
     }
@@ -296,9 +298,15 @@ public class DataBaseConnection {
             StoredProcCall = Connection.prepareCall("{call USP_CreateSubasta(?,?,?,?,?,?,?,?,?)}");
             StoredProcCall.setString(1, pAuction.getItemName());
             StoredProcCall.setString(2, pAuction.getDescription());
-            File file = new File(pAuction.getImage());
-            FileInputStream stream = new FileInputStream(file);
-            StoredProcCall.setBinaryStream(3, stream, (int) file.length());
+            FileInputStream stream;
+            
+            if(pAuction.getImage()!=null){
+                stream = new FileInputStream(pAuction.getImage());
+                StoredProcCall.setBinaryStream(3, stream, (int) pAuction.getImage().length());   
+            }else{
+                stream = null;
+                StoredProcCall.setBinaryStream(3, stream, 0);   
+            }
             StoredProcCall.setString(4, pAuction.getSubCategory());
             StoredProcCall.setString(5, pAuction.getCategory());
             StoredProcCall.setString(6, pAuction.getDeliverDetails());
@@ -311,6 +319,139 @@ public class DataBaseConnection {
             sendError(ex.getMessage());
             return true;
         }
+    }
+    public Object[] listSubastasInactivas(){
+        ArrayList<String> itemName = new ArrayList<String>();
+        ArrayList<Integer> auctionId = new ArrayList<Integer>();
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetSubastasForVendedor(?)}");
+            StoredProcCall.setString(1, this._UserAlias);
+            ResultSet rs = StoredProcCall.executeQuery();
+            
+            while(rs.next()){
+                if( rs.getString("Estado").equals("INACTIVA")){
+                    itemName.add(rs.getString("Nombre"));
+                    auctionId.add(rs.getInt("Id"));
+                }
+            }
+            return new Object[]{itemName.toArray(new String[itemName.size()]), auctionId.toArray(new Integer[auctionId.size()])};
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+        }
+    }
+    public Integer[] valuesRestartAuction(int pId){
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetSubasta(?,?,?)}");
+            StoredProcCall.setInt(1, pId);
+            StoredProcCall.registerOutParameter(2,Types.INTEGER);
+            StoredProcCall.registerOutParameter(3, Types.INTEGER);
+            StoredProcCall.execute();
+            return new Integer[]{StoredProcCall.getInt(2), StoredProcCall.getInt(3)};
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+            //Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+    }
+    public void restartAuction(int pId){
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_RestartSubasta(?)}");
+            StoredProcCall.setInt(1, pId);
+            StoredProcCall.execute();
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            
+        }
+    }
+    public Object[] listSubastasCategory(String pCategory, String pSubCategory){
+        ArrayList<String> itemInfo = new ArrayList<String>();
+        ArrayList<Integer> auctionId = new ArrayList<Integer>();
+        ArrayList<String> itemDescription = new ArrayList<String>();
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetSubastasActivasCategoria(?,?)}");
+            StoredProcCall.setString(1, pCategory);
+            StoredProcCall.setString(2, pSubCategory);
+            ResultSet rs = StoredProcCall.executeQuery();
+            
+            while(rs.next()){
+                itemInfo.add("Seller: "+ rs.getString("AliasVendedor")+ " Item: "+ rs.getString("Nombre") 
+                        + " Current Bid: " + rs.getString("MejorOferta") 
+                        + " Ending: " + rs.getString("FechaFinal"));
+                auctionId.add(rs.getInt("Id"));
+                itemDescription.add(rs.getString("Descripcion"));
+            }
+            return new Object[]{itemInfo.toArray(new String[itemInfo.size()]), auctionId.toArray(new Integer[auctionId.size()]), itemDescription.toArray(new String[itemDescription.size()])};
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+        }
+    }
+    public boolean makeBid(int pIdAuction, int pMoney){
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_CreatePuja(?,?,?)}");
+            StoredProcCall.setString(1, this._UserAlias);
+            StoredProcCall.setInt(2, pMoney);
+            StoredProcCall.setInt(3, pIdAuction);
+            StoredProcCall.execute();
+            return false;
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return true;
+        }
+            
+    }
+    public String[] bidsPerAuction(int pIdAuction){
+        ArrayList<String> bidInfo = new ArrayList<String>();
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetPujasForSubasta(?)}");
+            StoredProcCall.setInt(1, pIdAuction);
+            ResultSet rs = StoredProcCall.executeQuery();
+            
+            while(rs.next()){
+                bidInfo.add("NickName: " + rs.getString("Alias") + " Amount: " + rs.getString("Monto")+ " Fecha: "+ rs.getString("Fecha"));
+            }
+            return bidInfo.toArray(new String[bidInfo.size()]);
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+        }
+    }
+    public String[] auctionsPerUser(String pAlias){
+        ArrayList<String> auctionsInfo = new ArrayList<String>();
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetSubastasForVendedor(?)}");
+            StoredProcCall.setString(1, pAlias);
+            ResultSet rs = StoredProcCall.executeQuery();
+            while(rs.next()){
+                auctionsInfo.add("Item: " + rs.getString("Nombre") + " Initial Price: " + rs.getString("PrecioBase")+ " Best Bid: "+ rs.getString("MejorOferta")+ " Comment: "+ rs.getString("ComentarioxComprador"));
+            }
+            return auctionsInfo.toArray(new String[auctionsInfo.size()]);
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+        }
+    }
+    public String[] wonAuctionsPerUser(String pAlias){
+        ArrayList<String> auctionsInfo = new ArrayList<String>();
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetPujasGanadorasForUsuario(?)}");
+            StoredProcCall.setString(1, pAlias);
+            ResultSet rs = StoredProcCall.executeQuery();
+            while(rs.next()){
+                auctionsInfo.add("Item: " + rs.getString("Nombre") + " Initial Price: " + rs.getString("PrecioBase")+ " Best Bid: "+ rs.getString("MejorOferta")+ " Comment: "+ rs.getString("ComentarioxVendedor"));
+            }
+            return auctionsInfo.toArray(new String[auctionsInfo.size()]);
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+        }
+    }
+    
+    
+    public void setcon(){
+        Connection = null;
     }
 	
 }

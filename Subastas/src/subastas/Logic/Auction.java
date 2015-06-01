@@ -5,6 +5,8 @@
  */
 package subastas.Logic;
 
+import java.io.File;
+
 /**
  *
  * @author Xelop
@@ -12,14 +14,15 @@ package subastas.Logic;
 public class Auction {
     private String _ItemName;
     private String _Description;
-    private String _Image;
+    private File _Image;
     private String _SubCategory;
     private String _Category;
     private String _DeliverDetails;
     private String _LastDate;
     private int _Price;
     
-    public Auction(String pItem,String  pDescription,String  pImage,String  pSubcategory,String  pCategory,String  pDeliverDetails, String pDate, int pPrice){
+    
+    public Auction(String pItem,String  pDescription,File  pImage,String  pSubcategory,String  pCategory,String  pDeliverDetails, String pDate, int pPrice){
         _ItemName = pItem;
         _Description = pDescription;
         _Image = pImage;
@@ -28,6 +31,7 @@ public class Auction {
         _DeliverDetails = pDeliverDetails;
         _LastDate =  pDate;
         _Price = pPrice;
+        
     }
 
     /**
@@ -61,14 +65,14 @@ public class Auction {
     /**
      * @return the _Image
      */
-    public String getImage() {
+    public File getImage() {
         return _Image;
     }
 
     /**
      * @param _Image the _Image to set
      */
-    public void setImage(String _Image) {
+    public void setImage(File _Image) {
         this._Image = _Image;
     }
 

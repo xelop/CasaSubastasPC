@@ -20,7 +20,8 @@ public class GetIdentification extends javax.swing.JFrame {
     JFrame previuos;
     int Action;
     DataBaseConnection Connection = DataBaseConnection.getInstance();
-    public GetIdentification(JFrame pPreviuos, int pAction) { // 1 = ModifyAgent 2=modify participant
+    public GetIdentification(JFrame pPreviuos, int pAction) { // 1 = ModifyAgent 2=modify participant 3: get subasta
+                                                            // 4:get alias for auction
         initComponents();
         previuos = pPreviuos;
         Action=pAction;
@@ -28,6 +29,14 @@ public class GetIdentification extends javax.swing.JFrame {
             this._lbl_Action.setText("MODIFY AGENT");
         }else if(Action == 2){
             this._lbl_Action.setText("MODIFY PARTICIPANT");
+        }else if(Action == 3){
+            this._lbl_Action.setText("GET BIDS FOR AUCTION");
+        }else if(Action == 4){
+            this._lbl_Action.setText("GET AUCTIONS FOR USER");
+            this._lbl_Attribute.setText("Nickname: ");
+        }else if(Action == 5){
+            this._lbl_Action.setText("GET WON BIDS FOR USER");
+            this._lbl_Attribute.setText("Nickname: ");
         }
     }
 
@@ -125,6 +134,14 @@ public class GetIdentification extends javax.swing.JFrame {
                 this.dispose();
             }   
             
+        }else if(Action == 3){
+            new ListInactiveAuctions(previuos, 4, null, null,Integer.parseInt(_txt_Attribute.getText())).setVisible(true);
+            this.dispose();
+        }else if( Action == 4){
+            new ListInactiveAuctions(previuos, 5, _txt_Attribute.getText(), null, 0).setVisible(true);
+            this.dispose();
+        }else if( Action== 5){
+            new ListInactiveAuctions(previuos, 6, _txt_Attribute.getText(), null, 0).setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
