@@ -5,10 +5,14 @@
  */
 package subastas.UI;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import subastas.Logic.DataBaseConnection;
+import subastas.Logic.HashTextTest;
 
 /**
  *
@@ -233,13 +237,12 @@ public class AttributesUser extends javax.swing.JFrame {
             error =_Connection.createAgent(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
                     , this._txt_Password.getText(), this._txt_Name.getText(), this._txt_LastName1.getText()
                     ,this._txt_LastName2.getText());
-        }else if(_Action == 3){ //create participant
-            String credit= this._txt_Credit.getText();
-            if(credit.isEmpty())
-                credit=null;
-            error =_Connection.createParticipant(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
-                    , this._txt_Password.getText(), this._txt_Name.getText(), this._txt_LastName1.getText()
-                    ,this._txt_LastName2.getText(), credit);
+        }else if(_Action == 3){ String credit= this._txt_Credit.getText();
+        if(credit.isEmpty())
+            credit=null;
+        error =_Connection.createParticipant(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
+                , HashTextTest.sha1(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
+                ,this._txt_LastName2.getText(), credit);
         }else if(_Action == 4){
             String[] values = new String[5];
             values[0] = this._txt_Alias.getText();

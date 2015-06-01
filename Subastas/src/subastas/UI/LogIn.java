@@ -123,6 +123,7 @@ public class LogIn extends javax.swing.JFrame {
                 new AdministratorMenu().setVisible(true);
                 this.dispose();
             }else if(type == -7){
+                //if evaluando el password
                 new ParticipantsMenu().setVisible(true);
                 this.dispose();
             }else{

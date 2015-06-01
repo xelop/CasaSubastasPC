@@ -287,7 +287,7 @@ public class DataBaseConnection {
             StoredProcCall.setInt(1,pIdentification);
             StoredProcCall.execute();
             return false;
-        } catch (SQLException ex) {
+        }catch (SQLException ex) {
             
             sendError(ex.getMessage());
             return true;
