@@ -68,6 +68,23 @@ public class DataBaseConnection {
     private void sendError(String pMessage){
         JOptionPane.showMessageDialog(null, pMessage);
     }
+    public boolean verifyPassword(String pAlias, String pPassword){
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetPassForUsuario(?,?)}");
+            StoredProcCall.setString(1, pAlias);
+            StoredProcCall.registerOutParameter(2, Types.VARCHAR);
+            StoredProcCall.execute();
+            String password = StoredProcCall.getString(2);
+            System.out.println(password);
+            if(password.equals(HashTextTest.sha1(pPassword))){
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return false;
+        }
+    }
     public int getUser(String pAlias){
         try{ 
             StoredProcCall = Connection.prepareCall("{? = call USP_GetUsuarioAlias(?,?)}");
@@ -111,6 +128,18 @@ public class DataBaseConnection {
             
             sendError(ex.getMessage() +" "+ ex.getErrorCode());
             return true;
+        }
+    }
+    public void insertTelephones(int pId, ArrayList<String> pTelephones){
+        for(int counter = 0; counter < pTelephones.size(); counter++){
+            try {
+                StoredProcCall = Connection.prepareCall("{call USP_CreateTelefonoUsuario(?,?)}");
+                StoredProcCall.setInt(1,pId);
+                StoredProcCall.setString(2, pTelephones.get(counter));
+                StoredProcCall.execute();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     public boolean suspendAgent(int pIdentification){
@@ -295,25 +324,27 @@ public class DataBaseConnection {
     }
     public boolean createSubasta(Auction pAuction) throws FileNotFoundException{
         try{
-            StoredProcCall = Connection.prepareCall("{call USP_CreateSubasta(?,?,?,?,?,?,?,?,?)}");
-            StoredProcCall.setString(1, pAuction.getItemName());
-            StoredProcCall.setString(2, pAuction.getDescription());
+            StoredProcCall = Connection.prepareCall("{?=call USP_CreateSubasta(?,?,?,?,?,?,?,?,?)}");
+            StoredProcCall.registerOutParameter(1, Types.INTEGER);
+            StoredProcCall.setString(2, pAuction.getItemName());
+            StoredProcCall.setString(3, pAuction.getDescription());
             FileInputStream stream;
             
             if(pAuction.getImage()!=null){
                 stream = new FileInputStream(pAuction.getImage());
-                StoredProcCall.setBinaryStream(3, stream, (int) pAuction.getImage().length());   
+                StoredProcCall.setBinaryStream(4, stream, (int) pAuction.getImage().length());   
             }else{
                 stream = null;
-                StoredProcCall.setBinaryStream(3, stream, 0);   
+                StoredProcCall.setBinaryStream(4, stream, 0);   
             }
-            StoredProcCall.setString(4, pAuction.getSubCategory());
-            StoredProcCall.setString(5, pAuction.getCategory());
-            StoredProcCall.setString(6, pAuction.getDeliverDetails());
-            StoredProcCall.setString(7, pAuction.getLastDate());
-            StoredProcCall.setString(8, this._UserAlias);
-            StoredProcCall.setInt(9, pAuction.getPrice());
+            StoredProcCall.setString(5, pAuction.getSubCategory());
+            StoredProcCall.setString(6, pAuction.getCategory());
+            StoredProcCall.setString(7, pAuction.getDeliverDetails());
+            StoredProcCall.setString(8, pAuction.getLastDate());
+            StoredProcCall.setString(9, this._UserAlias);
+            StoredProcCall.setInt(10, pAuction.getPrice());
             StoredProcCall.execute();
+            System.out.println(StoredProcCall.getInt(1));
             return false;
         }catch (SQLException ex){
             sendError(ex.getMessage());
@@ -446,6 +477,64 @@ public class DataBaseConnection {
         } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
+        }
+    }
+    public Object[] listBought(){
+        ArrayList<String> itemInfo = new ArrayList<String>();
+        ArrayList<Integer> auctionId = new ArrayList<Integer>();
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetComprasForComprador(?)}");
+            StoredProcCall.setInt(1, _UserIdentification);
+            ResultSet rs = StoredProcCall.executeQuery();
+            
+            while(rs.next()){
+                itemInfo.add("Seller: "+ rs.getString("AliasVendedor")+ " Item: "+ rs.getString("Nombre") 
+                        + " Price: " + rs.getString("PrecioFinal")+" Date: " + rs.getString("Fechal"));
+                auctionId.add(rs.getInt("Id"));
+            }
+            return new Object[]{itemInfo.toArray(new String[itemInfo.size()]), auctionId.toArray(new Integer[auctionId.size()])};
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+        }
+    }
+    public Object[] listSold(){
+        ArrayList<String> itemInfo = new ArrayList<String>();
+        ArrayList<Integer> auctionId = new ArrayList<Integer>();
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetComprasForComprador(?)}");
+            StoredProcCall.setInt(1, _UserIdentification);
+            ResultSet rs = StoredProcCall.executeQuery();
+            
+            while(rs.next()){
+                itemInfo.add("Buyer (Maybe Alias): "+ rs.getString("IdComprador")+ " Item: "+ rs.getString("Nombre") 
+                        + " Price: " + rs.getString("PrecioFinal")+ " Date: " + rs.getString("Fechal"));
+                auctionId.add(rs.getInt("Id"));
+            }
+            return new Object[]{itemInfo.toArray(new String[itemInfo.size()]), auctionId.toArray(new Integer[auctionId.size()])};
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+        }
+    }
+    public void addCommentSold(int pId, String pComment){
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_AddCommentVendedor(?,?)}");
+            StoredProcCall.setInt(1, pId);
+            StoredProcCall.setString(2, pComment);
+            StoredProcCall.execute();
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+        }
+    }
+    public void addCommentBought(int pId, String pComment){
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_AddCommentComprador(?,?)}");
+            StoredProcCall.setInt(1, pId);
+            StoredProcCall.setString(2, pComment);
+            StoredProcCall.execute();
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
         }
     }
     

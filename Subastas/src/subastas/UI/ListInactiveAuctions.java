@@ -28,6 +28,7 @@ public class ListInactiveAuctions extends javax.swing.JFrame {
     public ListInactiveAuctions(JFrame pPrevious, int pAction, String pCategory, String pSubCategory, int pId){ // 1:Inactive, 2:Bids
                                                                                                        //3:list, 4:bids per auction
                                                                                                        // 5: auctions user
+                                                                                                       //6: won 7:bought 8:sold
         initComponents();
         _Connection = DataBaseConnection.getInstance();
         _Action = pAction;
@@ -63,9 +64,23 @@ public class ListInactiveAuctions extends javax.swing.JFrame {
             _ItemNames = _Connection.auctionsPerUser(pCategory);
             _lst_Auctions.setListData(_ItemNames);
         }else if(_Action == 6){
-            _lbl_Action.setText("Won Auctions");
+            _lbl_Action.setText("WON AUCTIONS");
             jButton1.setVisible(false);
             _ItemNames = _Connection.wonAuctionsPerUser(pCategory);
+            _lst_Auctions.setListData(_ItemNames);
+        }else if(_Action == 7){
+            _lbl_Action.setText("BOUGHT AUCTIONS");
+            jButton1.setText("Add Comment");
+            Object[] x = _Connection.listBought();
+            _ItemNames = (String[]) x[0];
+            _AuctionId = (Integer[]) x[1];
+            _lst_Auctions.setListData(_ItemNames);
+        }else if(_Action == 8){
+            _lbl_Action.setText("SOLD AUCTIONS");
+            jButton1.setText("Add Comment");
+            Object[] x = _Connection.listSold();
+            _ItemNames = (String[]) x[0];
+            _AuctionId = (Integer[]) x[1];
             _lst_Auctions.setListData(_ItemNames);
         }
         _Previous = pPrevious;
@@ -151,6 +166,14 @@ public class ListInactiveAuctions extends javax.swing.JFrame {
         }else if(_Action == 2){
             int index = this._lst_Auctions.getSelectedIndex();
             new MakeBid(_Previous, _AuctionId[index],_ItemDescription[index]).setVisible(true);
+            this.dispose();
+        }else if( _Action == 7){
+            int index = this._lst_Auctions.getSelectedIndex();
+            new Comments(_Previous, 1, _AuctionId[index]).setVisible(true);
+            this.dispose();
+        }else if (_Action == 8){
+            int index = this._lst_Auctions.getSelectedIndex();
+            new Comments(_Previous, 2, _AuctionId[index]).setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed

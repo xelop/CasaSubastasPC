@@ -7,6 +7,7 @@ package subastas.UI;
 
 import javax.swing.JOptionPane;
 import subastas.Logic.DataBaseConnection;
+import subastas.Logic.HashTextTest;
 
 /**
  *
@@ -37,6 +38,7 @@ public class LogIn extends javax.swing.JFrame {
         _btn_Login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         _chk_administration = new javax.swing.JCheckBox();
+        _chk_agent = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,7 +55,9 @@ public class LogIn extends javax.swing.JFrame {
 
         jLabel1.setText("CASA DE SUBASTAS");
 
-        _chk_administration.setText(" Administration");
+        _chk_administration.setText(" Administrator");
+
+        _chk_agent.setText("Agent");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,7 +76,8 @@ public class LogIn extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(_txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(_txt_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(_chk_administration)))
+                            .addComponent(_chk_administration)
+                            .addComponent(_chk_agent)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(142, 142, 142)
                         .addComponent(jLabel1)))
@@ -98,7 +103,9 @@ public class LogIn extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_btn_Login)
                     .addComponent(_chk_administration))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(_chk_agent)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         pack();
@@ -111,22 +118,33 @@ public class LogIn extends javax.swing.JFrame {
         
         if(_chk_administration.isSelected())
             error=connection.setConnection(_txt_Username.getText(),_txt_Password.getText());
-        else
+        else if(_chk_agent.isSelected()){
+            System.out.println(HashTextTest.sha1(_txt_Password.getText()));
+            error=connection.setConnection(_txt_Username.getText(),HashTextTest.sha1(_txt_Password.getText()));
+        }else
             error=connection.setConnection("participante","participante");
         
         if(!error){
             int type = connection.getUser(_txt_Username.getText());
-            if(type == -5){
-                new AgentMenu().setVisible(true);
-                this.dispose();
+            if(type == -5 &&_chk_agent.isSelected()){
+                if(connection.verifyPassword(_txt_Username.getText(), _txt_Password.getText())){
+                     new AgentMenu().setVisible(true);
+                     this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Incorrect Password");
+                }
             }else if(type == -6 &&_chk_administration.isSelected()){
                 new AdministratorMenu().setVisible(true);
                 this.dispose();
             }else if(type == -7){
-                //if evaluando el password
-                new ParticipantsMenu().setVisible(true);
-                this.dispose();
+                if(connection.verifyPassword(_txt_Username.getText(), _txt_Password.getText())){
+                    new ParticipantsMenu().setVisible(true);
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Incorrect Password");
+                }
             }else{
+                JOptionPane.showMessageDialog(null, "Verifique sus opciones seleccionadas");
                 connection.setcon();
             }
         }
@@ -170,6 +188,7 @@ public class LogIn extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btn_Login;
     private javax.swing.JCheckBox _chk_administration;
+    private javax.swing.JCheckBox _chk_agent;
     private javax.swing.JLabel _lbl_Password;
     private javax.swing.JLabel _lbl_Username;
     private javax.swing.JTextField _txt_Password;

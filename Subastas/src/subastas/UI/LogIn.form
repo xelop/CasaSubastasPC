@@ -40,6 +40,7 @@
                               </Group>
                           </Group>
                           <Component id="_chk_administration" min="-2" max="-2" attributes="0"/>
+                          <Component id="_chk_agent" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -75,7 +76,9 @@
                   <Component id="_btn_Login" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="_chk_administration" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="35" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="_chk_agent" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="10" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -110,7 +113,12 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="_chk_administration">
       <Properties>
-        <Property name="text" type="java.lang.String" value=" Administration"/>
+        <Property name="text" type="java.lang.String" value=" Administrator"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="_chk_agent">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Agent"/>
       </Properties>
     </Component>
   </SubComponents>

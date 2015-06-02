@@ -33,6 +33,8 @@ public class ParticipantsMenu extends javax.swing.JFrame {
         _btn_RestartAuction = new javax.swing.JButton();
         _btn_Bid = new javax.swing.JButton();
         _btn_More = new javax.swing.JButton();
+        _btn_CommentBuyer = new javax.swing.JButton();
+        _btn_CommentSeller = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,17 +68,30 @@ public class ParticipantsMenu extends javax.swing.JFrame {
             }
         });
 
+        _btn_CommentBuyer.setText("Comment as Buyer");
+        _btn_CommentBuyer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_CommentBuyerActionPerformed(evt);
+            }
+        });
+
+        _btn_CommentSeller.setText("Comment as Seller");
+        _btn_CommentSeller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_CommentSellerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(_btn_RestartAuction, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(_btn_BeginAuction, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(_btn_Bid, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(_btn_More, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 9, Short.MAX_VALUE))
+            .addComponent(_btn_Bid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(_btn_CommentBuyer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(_btn_RestartAuction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(_btn_BeginAuction, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(_btn_More, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(_btn_CommentSeller, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,8 +102,12 @@ public class ParticipantsMenu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(_btn_Bid)
                 .addGap(18, 18, 18)
+                .addComponent(_btn_CommentBuyer)
+                .addGap(18, 18, 18)
+                .addComponent(_btn_CommentSeller)
+                .addGap(18, 18, 18)
                 .addComponent(_btn_More)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -103,7 +122,7 @@ public class ParticipantsMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,8 +130,8 @@ public class ParticipantsMenu extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(_lbl_Participants)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -141,6 +160,18 @@ public class ParticipantsMenu extends javax.swing.JFrame {
         this.setVisible(false);
         new FindAuctions(this, 2).setVisible(true);
     }//GEN-LAST:event__btn_BidActionPerformed
+
+    private void _btn_CommentBuyerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_CommentBuyerActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new ListInactiveAuctions(this,7,"","",0).setVisible(true);
+    }//GEN-LAST:event__btn_CommentBuyerActionPerformed
+
+    private void _btn_CommentSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_CommentSellerActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new ListInactiveAuctions(this,8,"","",0).setVisible(true);
+    }//GEN-LAST:event__btn_CommentSellerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,6 +211,8 @@ public class ParticipantsMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btn_BeginAuction;
     private javax.swing.JButton _btn_Bid;
+    private javax.swing.JButton _btn_CommentBuyer;
+    private javax.swing.JButton _btn_CommentSeller;
     private javax.swing.JButton _btn_More;
     private javax.swing.JButton _btn_RestartAuction;
     private javax.swing.JLabel _lbl_Participants;

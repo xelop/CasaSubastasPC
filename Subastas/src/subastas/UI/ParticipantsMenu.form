@@ -25,7 +25,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Component id="_lbl_Participants" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -34,7 +34,7 @@
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="34" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -44,8 +44,8 @@
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Component id="_lbl_Participants" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -61,15 +61,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="_btn_RestartAuction" alignment="0" max="32767" attributes="0"/>
-                      <Component id="_btn_BeginAuction" alignment="0" max="32767" attributes="0"/>
-                      <Component id="_btn_Bid" alignment="0" max="32767" attributes="0"/>
-                      <Component id="_btn_More" alignment="0" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
-              </Group>
+              <Component id="_btn_Bid" max="32767" attributes="0"/>
+              <Component id="_btn_CommentBuyer" max="32767" attributes="0"/>
+              <Component id="_btn_RestartAuction" alignment="0" max="32767" attributes="0"/>
+              <Component id="_btn_BeginAuction" alignment="1" max="32767" attributes="0"/>
+              <Component id="_btn_More" alignment="0" max="32767" attributes="0"/>
+              <Component id="_btn_CommentSeller" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -81,8 +78,12 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="_btn_Bid" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="_btn_CommentBuyer" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="_btn_CommentSeller" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="_btn_More" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="17" max="32767" attributes="0"/>
+                  <EmptySpace pref="18" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -118,6 +119,22 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_MoreActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="_btn_CommentBuyer">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Comment as Buyer"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_CommentBuyerActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="_btn_CommentSeller">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Comment as Seller"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_CommentSellerActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

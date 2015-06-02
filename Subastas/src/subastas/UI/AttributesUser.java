@@ -26,6 +26,7 @@ public class AttributesUser extends javax.swing.JFrame {
     JFrame _Previuos;
     int _Action;
     int _Identification;
+    ArrayList<String> _Telephones;
     DataBaseConnection _Connection = DataBaseConnection.getInstance();
     
     public AttributesUser(JFrame pPreviuos, int pAction, int pIdentification) { // 1 = modify, 2 = create agent,
@@ -34,6 +35,8 @@ public class AttributesUser extends javax.swing.JFrame {
         _Previuos = pPreviuos;
         _Action=pAction;
         _Identification = pIdentification;
+        _Telephones =new ArrayList<String>();
+        _Jlst_Telephone_Numbers.setListData(_Telephones.toArray());
         if(_Action == 1){
             this._lbl_Action.setText("MODIFY AGENT");
             this._lbl_Identification.setVisible(false);
@@ -82,6 +85,11 @@ public class AttributesUser extends javax.swing.JFrame {
         _txt_Credit = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        _Jlst_Telephone_Numbers = new javax.swing.JList();
+        jLabel6 = new javax.swing.JLabel();
+        _txt_NewTelephone = new javax.swing.JTextField();
+        _btn_Add = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,7 +170,7 @@ public class AttributesUser extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_lbl_Credit)
                     .addComponent(_txt_Credit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 25, Short.MAX_VALUE))
+                .addGap(0, 37, Short.MAX_VALUE))
         );
 
         jButton1.setText("Accept");
@@ -179,6 +187,17 @@ public class AttributesUser extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setViewportView(_Jlst_Telephone_Numbers);
+
+        jLabel6.setText("New Telephone : ");
+
+        _btn_Add.setText("ADD");
+        _btn_Add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_AddActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,14 +208,30 @@ public class AttributesUser extends javax.swing.JFrame {
                         .addGap(118, 118, 118)
                         .addComponent(_lbl_Action))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
+                        .addGap(68, 68, 68)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(_txt_NewTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addComponent(_btn_Add)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,12 +239,23 @@ public class AttributesUser extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(_lbl_Action)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(_txt_NewTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(_btn_Add)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -217,6 +263,7 @@ public class AttributesUser extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean error = false;
+        System.out.println(HashTextTest.sha1(this._txt_Password.getText()));
         if(_Action == 1){ //modify
             String[] values = new String[5];
             values[0] = this._txt_Alias.getText();
@@ -235,8 +282,9 @@ public class AttributesUser extends javax.swing.JFrame {
             
         }else if(_Action == 2){//create agent
             error =_Connection.createAgent(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
-                    , this._txt_Password.getText(), this._txt_Name.getText(), this._txt_LastName1.getText()
+                    ,HashTextTest.sha1(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
                     ,this._txt_LastName2.getText());
+            
         }else if(_Action == 3){ String credit= this._txt_Credit.getText();
         if(credit.isEmpty())
             credit=null;
@@ -260,6 +308,9 @@ public class AttributesUser extends javax.swing.JFrame {
                     values[4]);
         }
         if(!error){
+            if(!_Telephones.isEmpty()){
+                _Connection.insertTelephones(Integer.parseInt(this._txt_Identification.getText()), _Telephones);
+            }
         _Previuos.setVisible(true);
         this.dispose();
         }
@@ -270,6 +321,13 @@ public class AttributesUser extends javax.swing.JFrame {
         this._Previuos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void _btn_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_AddActionPerformed
+        // TODO add your handling code here:
+        _Telephones.add(_txt_NewTelephone.getText());
+        _Jlst_Telephone_Numbers.setListData(_Telephones.toArray());
+        _txt_NewTelephone.setText("");
+    }//GEN-LAST:event__btn_AddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,6 +372,8 @@ public class AttributesUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList _Jlst_Telephone_Numbers;
+    private javax.swing.JButton _btn_Add;
     private javax.swing.JLabel _lbl_Action;
     private javax.swing.JLabel _lbl_Credit;
     private javax.swing.JLabel _lbl_Identification;
@@ -323,6 +383,7 @@ public class AttributesUser extends javax.swing.JFrame {
     private javax.swing.JTextField _txt_LastName1;
     private javax.swing.JTextField _txt_LastName2;
     private javax.swing.JTextField _txt_Name;
+    private javax.swing.JTextField _txt_NewTelephone;
     private javax.swing.JTextField _txt_Password;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -331,6 +392,8 @@ public class AttributesUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
