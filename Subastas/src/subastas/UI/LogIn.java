@@ -115,7 +115,7 @@ public class LogIn extends javax.swing.JFrame {
         // TODO add your handling code here:
         DataBaseConnection connection = DataBaseConnection.getInstance();
         boolean error;
-        
+        System.out.println(HashTextTest.sha2("caca"));
         if(_chk_administration.isSelected())
             error=connection.setConnection(_txt_Username.getText(),_txt_Password.getText());
         else if(_chk_agent.isSelected()){

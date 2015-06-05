@@ -5,10 +5,14 @@
  */
 package subastas.Logic;
 
+import static java.awt.SystemColor.text;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sun.misc.IOUtils;
 
 /**
  *
@@ -34,5 +38,18 @@ public class HashTextTest {
             Logger.getLogger(HashTextTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    public static String sha2(String input){
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(input.getBytes());
+            BigInteger hash = new BigInteger(1, md.digest());
+            String result = hash.toString(16);
+            result = result.toUpperCase();
+            return result;
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(HashTextTest.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }
