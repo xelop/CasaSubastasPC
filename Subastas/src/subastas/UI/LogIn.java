@@ -115,24 +115,20 @@ public class LogIn extends javax.swing.JFrame {
         // TODO add your handling code here:
         DataBaseConnection connection = DataBaseConnection.getInstance();
         boolean error;
-        System.out.println(HashTextTest.sha2("caca"));
         if(_chk_administration.isSelected())
             error=connection.setConnection(_txt_Username.getText(),_txt_Password.getText());
         else if(_chk_agent.isSelected()){
-            System.out.println(HashTextTest.sha1(_txt_Password.getText()));
-            error=connection.setConnection(_txt_Username.getText(),HashTextTest.sha1(_txt_Password.getText()));
+            System.out.println(HashTextTest.sha2(_txt_Password.getText()));
+            error=connection.setConnection(_txt_Username.getText(),HashTextTest.sha2(_txt_Password.getText()));
+            
         }else
             error=connection.setConnection("participante","participante");
         
         if(!error){
             int type = connection.getUser(_txt_Username.getText());
             if(type == -5 &&_chk_agent.isSelected()){
-                if(connection.verifyPassword(_txt_Username.getText(), _txt_Password.getText())){
-                     new AgentMenu().setVisible(true);
-                     this.dispose();
-                }else{
-                    JOptionPane.showMessageDialog(null, "Incorrect Password");
-                }
+                new AgentMenu().setVisible(true);
+                this.dispose();
             }else if(type == -6 &&_chk_administration.isSelected()){
                 new AdministratorMenu().setVisible(true);
                 this.dispose();

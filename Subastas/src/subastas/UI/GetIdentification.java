@@ -135,13 +135,14 @@ public class GetIdentification extends javax.swing.JFrame {
             }   
             
         }else if(Action == 3){
-            new ListInactiveAuctions(previuos, 4, null, null,Integer.parseInt(_txt_Attribute.getText())).setVisible(true);
+            new ListAuctions(previuos, 4, null, null,Integer.parseInt(_txt_Attribute.getText())).setVisible(true);
             this.dispose();
         }else if( Action == 4){
-            new ListInactiveAuctions(previuos, 5, _txt_Attribute.getText(), null, 0).setVisible(true);
+            new ListAuctions(previuos, 5, _txt_Attribute.getText(), null, 0).setVisible(true);
             this.dispose();
         }else if( Action== 5){
-            new ListInactiveAuctions(previuos, 6, _txt_Attribute.getText(), null, 0).setVisible(true);
+            new ListAuctions(previuos, 6, _txt_Attribute.getText(), null, 0).setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

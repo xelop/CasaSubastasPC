@@ -58,6 +58,15 @@ public class StateUser extends javax.swing.JFrame {
 
         jLabel2.setText("Identification:");
 
+        _txt_Identification.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                _txt_IdentificationKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_IdentificationKeyReleased(evt);
+            }
+        });
+
         jButton2.setText("Back");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,6 +144,17 @@ public class StateUser extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void _txt_IdentificationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_IdentificationKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event__txt_IdentificationKeyPressed
+
+    private void _txt_IdentificationKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_IdentificationKeyReleased
+        // TODO add your handling code here:
+        if(Character.isDigit(evt.getKeyChar())||evt.getExtendedKeyCode()==8) {
+        } else
+            _txt_Identification.setText(""+_txt_Identification.getText().substring(0, _txt_Identification.getText().length() - 1));
+    }//GEN-LAST:event__txt_IdentificationKeyReleased
 
     /**
      * @param args the command line arguments

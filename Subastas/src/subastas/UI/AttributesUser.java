@@ -95,6 +95,17 @@ public class AttributesUser extends javax.swing.JFrame {
 
         _lbl_Action.setText("CREATE AGENT");
 
+        _txt_Identification.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _txt_IdentificationActionPerformed(evt);
+            }
+        });
+        _txt_Identification.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_IdentificationKeyReleased(evt);
+            }
+        });
+
         _lbl_Identification.setText("Identification:");
 
         jLabel1.setText("Alias: ");
@@ -108,6 +119,12 @@ public class AttributesUser extends javax.swing.JFrame {
         jLabel5.setText("Password:");
 
         _lbl_Credit.setText("CreditCard Number: ");
+
+        _txt_Credit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_CreditKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -191,6 +208,17 @@ public class AttributesUser extends javax.swing.JFrame {
 
         jLabel6.setText("New Telephone : ");
 
+        _txt_NewTelephone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _txt_NewTelephoneActionPerformed(evt);
+            }
+        });
+        _txt_NewTelephone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_NewTelephoneKeyReleased(evt);
+            }
+        });
+
         _btn_Add.setText("ADD");
         _btn_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,7 +291,6 @@ public class AttributesUser extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean error = false;
-        System.out.println(HashTextTest.sha1(this._txt_Password.getText()));
         if(_Action == 1){ //modify
             String[] values = new String[5];
             values[0] = this._txt_Alias.getText();
@@ -277,20 +304,25 @@ public class AttributesUser extends javax.swing.JFrame {
                     values[counter]=null;
                 }
             }
+            if(values[1] != null){
+                values[1] = HashTextTest.sha2(this._txt_Password.getText());
+            }
             error =_Connection.modifyAgent(this._Identification , values[0], values[1], values[2], values[3],
                     values[4]);
             
         }else if(_Action == 2){//create agent
             error =_Connection.createAgent(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
-                    ,HashTextTest.sha1(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
+                    ,HashTextTest.sha2(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
                     ,this._txt_LastName2.getText());
             
-        }else if(_Action == 3){ String credit= this._txt_Credit.getText();
-        if(credit.isEmpty())
-            credit=null;
-        error =_Connection.createParticipant(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
-                , HashTextTest.sha1(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
-                ,this._txt_LastName2.getText(), credit);
+        }else if(_Action == 3){ 
+        
+            String credit= this._txt_Credit.getText();
+            if(credit.isEmpty())
+                credit=null;
+            error =_Connection.createParticipant(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
+                    , HashTextTest.sha2(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
+                    ,this._txt_LastName2.getText(), credit);
         }else if(_Action == 4){
             String[] values = new String[5];
             values[0] = this._txt_Alias.getText();
@@ -298,11 +330,14 @@ public class AttributesUser extends javax.swing.JFrame {
             values[2] = this._txt_Name.getText();
             values[3] = this._txt_LastName1.getText();
             values[4] = this._txt_LastName2.getText();
-            
+
             for(int counter = 0; counter < 5; counter++){
                 if(values[counter].isEmpty()){
                     values[counter]=null;
                 }
+            }
+            if(values[1] != null){
+                values[1] = HashTextTest.sha2(this._txt_Password.getText());
             }
             error =_Connection.modifyParticipant(this._Identification , values[0], values[1], values[2], values[3],
                     values[4]);
@@ -328,6 +363,35 @@ public class AttributesUser extends javax.swing.JFrame {
         _Jlst_Telephone_Numbers.setListData(_Telephones.toArray());
         _txt_NewTelephone.setText("");
     }//GEN-LAST:event__btn_AddActionPerformed
+
+    private void _txt_IdentificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__txt_IdentificationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event__txt_IdentificationActionPerformed
+
+    private void _txt_IdentificationKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_IdentificationKeyReleased
+        // TODO add your handling code here:
+        if(Character.isDigit(evt.getKeyChar())||evt.getExtendedKeyCode()==8) {
+        } else
+            _txt_Identification.setText(""+_txt_Identification.getText().substring(0, _txt_Identification.getText().length() - 1));
+    }//GEN-LAST:event__txt_IdentificationKeyReleased
+
+    private void _txt_CreditKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_CreditKeyReleased
+        // TODO add your handling code here:
+        if(Character.isDigit(evt.getKeyChar())||evt.getExtendedKeyCode()==8) {
+        } else
+            _txt_Credit.setText(""+_txt_Credit.getText().substring(0, _txt_Credit.getText().length() - 1));
+    }//GEN-LAST:event__txt_CreditKeyReleased
+
+    private void _txt_NewTelephoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__txt_NewTelephoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event__txt_NewTelephoneActionPerformed
+
+    private void _txt_NewTelephoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_NewTelephoneKeyReleased
+        // TODO add your handling code here:
+        if(Character.isDigit(evt.getKeyChar())||evt.getExtendedKeyCode()==8) {
+        } else
+            _txt_NewTelephone.setText(""+_txt_NewTelephone.getText().substring(0, _txt_NewTelephone.getText().length() - 1));
+    }//GEN-LAST:event__txt_NewTelephoneKeyReleased
 
     /**
      * @param args the command line arguments

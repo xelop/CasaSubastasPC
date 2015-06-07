@@ -36,9 +36,10 @@
                       <Component id="_btn_More" alignment="0" max="32767" attributes="0"/>
                       <Component id="_btn_ModifyAgent" alignment="0" max="32767" attributes="0"/>
                       <Component id="_btn_ActivateAgent" alignment="0" max="32767" attributes="0"/>
+                      <Component id="_btn_ModifyAgent1" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="79" max="32767" attributes="0"/>
+              <EmptySpace pref="67" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,8 +57,10 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="_btn_ModifyAgent" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="_btn_ModifyAgent1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="_btn_More" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -106,6 +109,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_MoreActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="_btn_ModifyAgent1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Midnight Auctions"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_ModifyAgent1ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

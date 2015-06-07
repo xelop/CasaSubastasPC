@@ -76,7 +76,8 @@ public class DataBaseConnection {
             StoredProcCall.execute();
             String password = StoredProcCall.getString(2);
             System.out.println(password);
-            if(password.equals(HashTextTest.sha1(pPassword))){
+            System.out.println(HashTextTest.sha2(pPassword));
+            if(password.equals(HashTextTest.sha2(pPassword))){
                 return true;
             }
             return false;
@@ -102,6 +103,7 @@ public class DataBaseConnection {
             return 0;
         }
     }
+    
     public boolean createAgent(int pIdentification, String pNickName, String pPassword, 
             String pName, String pLastName1, String pLastName2){
         try {
@@ -130,6 +132,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public void insertTelephones(int pId, ArrayList<String> pTelephones){
         for(int counter = 0; counter < pTelephones.size(); counter++){
             try {
@@ -142,6 +145,7 @@ public class DataBaseConnection {
             }
         }
     }
+    
     public boolean suspendAgent(int pIdentification){
         try {
             StoredProcCall = Connection.prepareCall("{? = call USP_SuspendAgente(?)}");
@@ -160,6 +164,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public boolean activateAgent(int pIdentification){
         try{
             StoredProcCall = Connection.prepareCall("{? = call USP_ReactivateAgente(?)}");
@@ -178,6 +183,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public int getAgent(int pIdentification){
         try{ 
             StoredProcCall = Connection.prepareCall("{? = call USP_GetUsuario(?)}");
@@ -195,6 +201,7 @@ public class DataBaseConnection {
             return -1;
         }
     }
+    
     public boolean modifyAgent(int pIdentification, String pNickName, String pPassword, 
             String pName, String pLastName1, String pLastName2){
         try {
@@ -214,6 +221,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public boolean createParticipant(int pIdentification, String pNickName, String pPassword, 
             String pName, String pLastName1, String pLastName2, String pCreditNumber){
         try {
@@ -241,6 +249,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public boolean updateCreditCard(int pIdentification, String pCard){
         try {
             StoredProcCall= Connection.prepareCall("{? = call USP_UpdateTarjetaParticipante(?,?)}");
@@ -262,6 +271,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public int getParticipant(int pIdentification){
         try{ 
             StoredProcCall = Connection.prepareCall("{? = call USP_GetUsuario(?)}");
@@ -279,6 +289,7 @@ public class DataBaseConnection {
             return -1;
         }
     }
+    
     public boolean modifyParticipant(int pIdentification, String pNickName, String pPassword, 
             String pName, String pLastName1, String pLastName2){
         try {
@@ -291,6 +302,7 @@ public class DataBaseConnection {
             StoredProcCall.setString(5, pLastName1);
             StoredProcCall.setString(6, pLastName2);
             StoredProcCall.execute();
+            StoredProcCall.close(); //buena practica!!!!!!!!!!!!
             return false;
             
             } catch (SQLException ex) {
@@ -298,6 +310,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public boolean suspendParticipant(int pIdentification){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_SuspendParticipante(?)}");
@@ -310,6 +323,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public boolean activateParticipant(int pIdentification){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_ReactivateParticipante(?)}");
@@ -322,6 +336,7 @@ public class DataBaseConnection {
             return true;
         }
     }
+    
     public boolean createSubasta(Auction pAuction) throws FileNotFoundException{
         try{
             StoredProcCall = Connection.prepareCall("{?=call USP_CreateSubasta(?,?,?,?,?,?,?,?,?)}");
@@ -351,26 +366,19 @@ public class DataBaseConnection {
             return true;
         }
     }
-    public Object[] listSubastasInactivas(){
-        ArrayList<String> itemName = new ArrayList<String>();
-        ArrayList<Integer> auctionId = new ArrayList<Integer>();
+    
+    public ResultSet listInactiveAuctions(){
         try {
-            StoredProcCall = Connection.prepareCall("{call USP_GetSubastasForVendedor(?)}");
+            StoredProcCall = Connection.prepareCall("{call USP_GetSubastasReiniciables(?)}");
             StoredProcCall.setString(1, this._UserAlias);
             ResultSet rs = StoredProcCall.executeQuery();
-            
-            while(rs.next()){
-                if( rs.getString("Estado").equals("INACTIVA")){
-                    itemName.add(rs.getString("Nombre"));
-                    auctionId.add(rs.getInt("Id"));
-                }
-            }
-            return new Object[]{itemName.toArray(new String[itemName.size()]), auctionId.toArray(new Integer[auctionId.size()])};
+            return rs;
         } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
         }
     }
+    
     public Integer[] valuesRestartAuction(int pId){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_GetSubasta(?,?,?)}");
@@ -386,6 +394,7 @@ public class DataBaseConnection {
         }
             
     }
+    
     public void restartAuction(int pId){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_RestartSubasta(?)}");
@@ -396,29 +405,21 @@ public class DataBaseConnection {
             
         }
     }
-    public Object[] listSubastasCategory(String pCategory, String pSubCategory){
-        ArrayList<String> itemInfo = new ArrayList<String>();
-        ArrayList<Integer> auctionId = new ArrayList<Integer>();
-        ArrayList<String> itemDescription = new ArrayList<String>();
+    
+    public ResultSet listSubastasCategory(String pCategory, String pSubCategory){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_GetSubastasActivasCategoria(?,?)}");
             StoredProcCall.setString(1, pCategory);
             StoredProcCall.setString(2, pSubCategory);
             ResultSet rs = StoredProcCall.executeQuery();
+            return rs;
             
-            while(rs.next()){
-                itemInfo.add("Seller: "+ rs.getString("AliasVendedor")+ " Item: "+ rs.getString("Nombre") 
-                        + " Current Bid: " + rs.getString("MejorOferta") 
-                        + " Ending: " + rs.getString("FechaFinal"));
-                auctionId.add(rs.getInt("Id"));
-                itemDescription.add(rs.getString("Descripcion"));
-            }
-            return new Object[]{itemInfo.toArray(new String[itemInfo.size()]), auctionId.toArray(new Integer[auctionId.size()]), itemDescription.toArray(new String[itemDescription.size()])};
         } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
         }
     }
+    
     public boolean makeBid(int pIdAuction, int pMoney){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_CreatePuja(?,?,?)}");
@@ -433,90 +434,72 @@ public class DataBaseConnection {
         }
             
     }
-    public String[] bidsPerAuction(int pIdAuction){
-        ArrayList<String> bidInfo = new ArrayList<String>();
+    
+    public ResultSet bidsPerAuction(int pIdAuction){
+        
         try {
             StoredProcCall = Connection.prepareCall("{call USP_GetPujasForSubasta(?)}");
             StoredProcCall.setInt(1, pIdAuction);
             ResultSet rs = StoredProcCall.executeQuery();
+            return rs;
             
-            while(rs.next()){
-                bidInfo.add("NickName: " + rs.getString("Alias") + " Amount: " + rs.getString("Monto")+ " Fecha: "+ rs.getString("Fecha"));
-            }
-            return bidInfo.toArray(new String[bidInfo.size()]);
         } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
         }
     }
-    public String[] auctionsPerUser(String pAlias){
-        ArrayList<String> auctionsInfo = new ArrayList<String>();
+    
+    public ResultSet auctionsPerUser(String pAlias){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_GetSubastasForVendedor(?)}");
             StoredProcCall.setString(1, pAlias);
             ResultSet rs = StoredProcCall.executeQuery();
-            while(rs.next()){
-                auctionsInfo.add("Item: " + rs.getString("Nombre") + " Initial Price: " + rs.getString("PrecioBase")+ " Best Bid: "+ rs.getString("MejorOferta")+ " Comment: "+ rs.getString("ComentarioxComprador"));
-            }
-            return auctionsInfo.toArray(new String[auctionsInfo.size()]);
+            
+            return rs;
         } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
         }
     }
-    public String[] wonAuctionsPerUser(String pAlias){
-        ArrayList<String> auctionsInfo = new ArrayList<String>();
+    
+    public ResultSet wonAuctionsPerUser(String pAlias){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_GetPujasGanadorasForUsuario(?)}");
             StoredProcCall.setString(1, pAlias);
             ResultSet rs = StoredProcCall.executeQuery();
-            while(rs.next()){
-                auctionsInfo.add("Item: " + rs.getString("Nombre") + " Initial Price: " + rs.getString("PrecioBase")+ " Best Bid: "+ rs.getString("MejorOferta")+ " Comment: "+ rs.getString("ComentarioxVendedor"));
-            }
-            return auctionsInfo.toArray(new String[auctionsInfo.size()]);
+            return rs;
         } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
         }
     }
-    public Object[] listBought(){
-        ArrayList<String> itemInfo = new ArrayList<String>();
-        ArrayList<Integer> auctionId = new ArrayList<Integer>();
+    
+    public ResultSet listBought(){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_GetComprasForComprador(?)}");
             StoredProcCall.setInt(1, _UserIdentification);
             ResultSet rs = StoredProcCall.executeQuery();
             
-            while(rs.next()){
-                itemInfo.add("Seller: "+ rs.getString("AliasVendedor")+ " Item: "+ rs.getString("Nombre") 
-                        + " Price: " + rs.getString("PrecioFinal")+" Date: " + rs.getString("Fechal"));
-                auctionId.add(rs.getInt("Id"));
-            }
-            return new Object[]{itemInfo.toArray(new String[itemInfo.size()]), auctionId.toArray(new Integer[auctionId.size()])};
+            return rs;
         } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
         }
     }
-    public Object[] listSold(){
-        ArrayList<String> itemInfo = new ArrayList<String>();
-        ArrayList<Integer> auctionId = new ArrayList<Integer>();
+    
+    public ResultSet listSold(){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_GetComprasForComprador(?)}");
             StoredProcCall.setInt(1, _UserIdentification);
             ResultSet rs = StoredProcCall.executeQuery();
             
-            while(rs.next()){
-                itemInfo.add("Buyer (Maybe Alias): "+ rs.getString("IdComprador")+ " Item: "+ rs.getString("Nombre") 
-                        + " Price: " + rs.getString("PrecioFinal")+ " Date: " + rs.getString("Fechal"));
-                auctionId.add(rs.getInt("Id"));
-            }
-            return new Object[]{itemInfo.toArray(new String[itemInfo.size()]), auctionId.toArray(new Integer[auctionId.size()])};
-        } catch (SQLException ex) {
+            return rs;
+           } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
         }
     }
+    
     public void addCommentSold(int pId, String pComment){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_AddCommentVendedor(?,?)}");
@@ -527,6 +510,7 @@ public class DataBaseConnection {
             sendError(ex.getMessage());
         }
     }
+    
     public void addCommentBought(int pId, String pComment){
         try {
             StoredProcCall = Connection.prepareCall("{call USP_AddCommentComprador(?,?)}");
@@ -535,6 +519,18 @@ public class DataBaseConnection {
             StoredProcCall.execute();
         } catch (SQLException ex) {
             sendError(ex.getMessage());
+        }
+    }
+    
+    public ResultSet midNightAuctions(){
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_GetTodaySubastas()}");
+            ResultSet rs = StoredProcCall.executeQuery();
+            
+            return rs;
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
     

@@ -152,7 +152,7 @@ public class ParticipantsMenu extends javax.swing.JFrame {
     private void _btn_RestartAuctionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_RestartAuctionActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        new ListInactiveAuctions(this,1,"","",0).setVisible(true);
+        new ListAuctions(this,1,"","",0).setVisible(true);
     }//GEN-LAST:event__btn_RestartAuctionActionPerformed
 
     private void _btn_BidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_BidActionPerformed
@@ -164,13 +164,13 @@ public class ParticipantsMenu extends javax.swing.JFrame {
     private void _btn_CommentBuyerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_CommentBuyerActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        new ListInactiveAuctions(this,7,"","",0).setVisible(true);
+        new ListAuctions(this,7,"","",0).setVisible(true);
     }//GEN-LAST:event__btn_CommentBuyerActionPerformed
 
     private void _btn_CommentSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_CommentSellerActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        new ListInactiveAuctions(this,8,"","",0).setVisible(true);
+        new ListAuctions(this,8,"","",0).setVisible(true);
     }//GEN-LAST:event__btn_CommentSellerActionPerformed
 
     /**

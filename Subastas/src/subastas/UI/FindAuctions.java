@@ -133,7 +133,7 @@ public class FindAuctions extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new ListInactiveAuctions(_Previous, _Action, _txt_Category.getText(), _txt_Subcategory.getText(),0).setVisible(true);
+        new ListAuctions(_Previous, _Action, _txt_Category.getText(), _txt_Subcategory.getText(),0).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

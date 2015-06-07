@@ -100,6 +100,17 @@ public class CreateAuction extends javax.swing.JFrame {
 
         _lbl_InitialPrice.setText("Initial Price");
 
+        _txt_Price.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _txt_PriceActionPerformed(evt);
+            }
+        });
+        _txt_Price.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_PriceKeyReleased(evt);
+            }
+        });
+
         _lbl_ItemDescription.setText("Item's Description");
 
         _txa_Description.setColumns(20);
@@ -310,6 +321,17 @@ public class CreateAuction extends javax.swing.JFrame {
             Logger.getLogger(CreateAuction.class.getName()).log(Level.SEVERE, null, ex); //no idea
         }
     }//GEN-LAST:event__btn_DoneActionPerformed
+
+    private void _txt_PriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__txt_PriceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event__txt_PriceActionPerformed
+
+    private void _txt_PriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_PriceKeyReleased
+        // TODO add your handling code here:
+        if(Character.isDigit(evt.getKeyChar())||evt.getExtendedKeyCode()==8) {
+        } else
+            _txt_Price.setText(""+_txt_Price.getText().substring(0, _txt_Price.getText().length() - 1));
+    }//GEN-LAST:event__txt_PriceKeyReleased
 
     /**
      * @param args the command line arguments

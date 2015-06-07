@@ -184,6 +184,10 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="_txt_Identification">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_txt_IdentificationActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="_txt_IdentificationKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="_txt_Alias">
         </Component>
@@ -231,6 +235,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="_txt_Credit">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="_txt_CreditKeyReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -272,6 +279,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="_txt_NewTelephone">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_txt_NewTelephoneActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="_txt_NewTelephoneKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="_btn_Add">
       <Properties>

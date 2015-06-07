@@ -21,12 +21,12 @@ public class MakeBid extends javax.swing.JFrame {
     int _IdAuction;
     DataBaseConnection _Connection;
     
-    public MakeBid(JFrame pPrevious, int pIdAuction, String pDescription) {
+    public MakeBid(JFrame pPrevious, int pIdAuction) {
         initComponents();
         _Previous = pPrevious;
         _IdAuction = pIdAuction;
         _Connection = DataBaseConnection.getInstance();
-        _lbl_Description.setText("Item Description: " + pDescription);
+        
     }
 
     /**
@@ -44,13 +44,23 @@ public class MakeBid extends javax.swing.JFrame {
         _txt_money = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        _lbl_Description = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("MAKE BID");
 
         jLabel2.setText("Money for Bid");
+
+        _txt_money.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _txt_moneyActionPerformed(evt);
+            }
+        });
+        _txt_money.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_moneyKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,8 +96,6 @@ public class MakeBid extends javax.swing.JFrame {
             }
         });
 
-        _lbl_Description.setText("Item Description: ");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,21 +103,17 @@ public class MakeBid extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel1))
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(_lbl_Description))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel1)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,13 +122,11 @@ public class MakeBid extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(_lbl_Description)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addGap(22, 22, 22))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -143,6 +145,17 @@ public class MakeBid extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void _txt_moneyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__txt_moneyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event__txt_moneyActionPerformed
+
+    private void _txt_moneyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_moneyKeyReleased
+        // TODO add your handling code here:
+        if(Character.isDigit(evt.getKeyChar())||evt.getExtendedKeyCode()==8) {
+        } else
+            _txt_money.setText(""+_txt_money.getText().substring(0, _txt_money.getText().length() - 1));
+    }//GEN-LAST:event__txt_moneyKeyReleased
 
     /**
      * @param args the command line arguments
@@ -180,7 +193,6 @@ public class MakeBid extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel _lbl_Description;
     private javax.swing.JTextField _txt_money;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

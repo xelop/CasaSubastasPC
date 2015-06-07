@@ -47,7 +47,19 @@ public class UpdateCardParticipant extends javax.swing.JFrame {
 
         jLabel2.setText("CHANGE PARTICIPANT'S CARD");
 
+        _txt_Identification.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_IdentificationKeyReleased(evt);
+            }
+        });
+
         jLabel3.setText("New Card Number");
+
+        _txt_Card.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_CardKeyReleased(evt);
+            }
+        });
 
         jButton1.setText("Accept");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +138,20 @@ public class UpdateCardParticipant extends javax.swing.JFrame {
         this._Previuos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void _txt_IdentificationKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_IdentificationKeyReleased
+        // TODO add your handling code here:
+        if(Character.isDigit(evt.getKeyChar())||evt.getExtendedKeyCode()==8) {
+        } else
+            _txt_Identification.setText(""+_txt_Identification.getText().substring(0, _txt_Identification.getText().length() - 1));
+    }//GEN-LAST:event__txt_IdentificationKeyReleased
+
+    private void _txt_CardKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_CardKeyReleased
+        // TODO add your handling code here:
+        if(Character.isDigit(evt.getKeyChar())||evt.getExtendedKeyCode()==8) {
+        } else
+            _txt_Card.setText(""+_txt_Card.getText().substring(0, _txt_Card.getText().length() - 1));
+    }//GEN-LAST:event__txt_CardKeyReleased
 
     /**
      * @param args the command line arguments
