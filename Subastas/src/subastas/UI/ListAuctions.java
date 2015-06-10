@@ -36,7 +36,7 @@ public class ListAuctions extends javax.swing.JFrame {
     public ListAuctions(JFrame pPrevious, int pAction, String pCategory, String pSubCategory, int pId){ // 1:Inactive, 2:Bids
                                                                                                        //3:list, 4:bids per auction
                                                                                                        // 5: auctions user
-                                                                                                       //6: won 7:bought 8:sold 9:midnight
+                                                                                                       //6: won 7:bought 8:sold 9:midnight 10:participants
         initComponents();
         _Connection = DataBaseConnection.getInstance();
         _Action = pAction;
@@ -128,6 +128,17 @@ public class ListAuctions extends javax.swing.JFrame {
                 _lst_Auctions.setModel(DbUtils.resultSetToTableModel(rs));
                 resizeColumnWidth(_lst_Auctions);
             }
+        }else if(_Action == 10){
+            _lbl_Action.setText("ALL PARTICIPANTS");
+            jButton1.setVisible(false);
+            
+            ResultSet rs = _Connection.listParticipants();
+            
+            if(rs != null){
+                _lst_Auctions.setModel(DbUtils.resultSetToTableModel(rs));
+                resizeColumnWidth(_lst_Auctions);
+            }
+            
         }
         _Previous = pPrevious;
     }

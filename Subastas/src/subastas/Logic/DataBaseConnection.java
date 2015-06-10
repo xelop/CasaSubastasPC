@@ -223,9 +223,9 @@ public class DataBaseConnection {
     }
     
     public boolean createParticipant(int pIdentification, String pNickName, String pPassword, 
-            String pName, String pLastName1, String pLastName2, String pCreditNumber){
+            String pName, String pLastName1, String pLastName2, String pCreditNumber, String pEmail){
         try {
-            StoredProcCall= Connection.prepareCall("{? = call USP_CreateParticipante(?,?,?,?,?,?,?)}");
+            StoredProcCall= Connection.prepareCall("{? = call USP_CreateParticipante(?,?,?,?,?,?,?,?)}");
             
             StoredProcCall.registerOutParameter(1, Types.INTEGER);
             
@@ -236,6 +236,7 @@ public class DataBaseConnection {
             StoredProcCall.setString(6, pLastName1);
             StoredProcCall.setString(7, pLastName2);
             StoredProcCall.setString(8, pCreditNumber);
+            StoredProcCall.setString(9, pEmail);
             StoredProcCall.execute();
             int error = StoredProcCall.getInt(1);
             if(error == -4){
@@ -291,9 +292,9 @@ public class DataBaseConnection {
     }
     
     public boolean modifyParticipant(int pIdentification, String pNickName, String pPassword, 
-            String pName, String pLastName1, String pLastName2){
+            String pName, String pLastName1, String pLastName2, String pEmail){
         try {
-            StoredProcCall= Connection.prepareCall("{call USP_UpdateParticipante(?,?,?,?,?,?)}");
+            StoredProcCall= Connection.prepareCall("{call USP_UpdateParticipante(?,?,?,?,?,?,?)}");
             
             StoredProcCall.setInt(1,pIdentification);
             StoredProcCall.setString(2,pNickName);
@@ -301,6 +302,7 @@ public class DataBaseConnection {
             StoredProcCall.setString(4, pName);
             StoredProcCall.setString(5, pLastName1);
             StoredProcCall.setString(6, pLastName2);
+            StoredProcCall.setString(7, pEmail);
             StoredProcCall.execute();
             StoredProcCall.close(); //buena practica!!!!!!!!!!!!
             return false;
@@ -529,10 +531,42 @@ public class DataBaseConnection {
             
             return rs;
         } catch (SQLException ex) {
-            Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            sendError(ex.getMessage());
             return null;
         }
     }
+    
+    public ResultSet listParticipants(){
+        try {
+            StoredProcCall = Connection.prepareCall("{call USP_ListParticipants()}");
+            ResultSet rs = StoredProcCall.executeQuery();
+            
+            return rs;
+        } catch (SQLException ex) {
+            sendError(ex.getMessage());
+            return null;
+        }
+    }
+    public Boolean modifyValues(Integer pComission, Integer pDecrease){
+        try{
+            StoredProcCall = Connection.prepareCall("{call USP_UpdateCasaSubasta(?,?)}");
+            if(pComission == null)
+                StoredProcCall.setNull(1,Types.INTEGER );
+            else
+                StoredProcCall.setInt(1, pComission);
+            if(pDecrease == null)
+                StoredProcCall.setNull(2,Types.INTEGER );
+            else
+                StoredProcCall.setInt(2, pDecrease);
+            
+            StoredProcCall.execute();
+            return false;
+        }catch (SQLException ex){
+            sendError(ex.getMessage());
+            return true;
+        }
+    }
+    
     
     
     public void setcon(){

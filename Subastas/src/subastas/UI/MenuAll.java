@@ -40,6 +40,7 @@ public class MenuAll extends javax.swing.JFrame {
         _btn_AuctionsHistoryforUser = new javax.swing.JButton();
         _btn_WonBidsHistoryforUser = new javax.swing.JButton();
         _btn_Back = new javax.swing.JButton();
+        _btn_ListParticipants = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -91,6 +92,13 @@ public class MenuAll extends javax.swing.JFrame {
             }
         });
 
+        _btn_ListParticipants.setText("List Participants");
+        _btn_ListParticipants.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_ListParticipantsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -101,8 +109,11 @@ public class MenuAll extends javax.swing.JFrame {
                     .addComponent(_btn_BidsHistoryOfProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(_btn_AuctionsHistoryforUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(_btn_WonBidsHistoryforUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(_btn_Back, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(_btn_ListParticipants, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(_btn_Back, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,9 +125,11 @@ public class MenuAll extends javax.swing.JFrame {
                 .addComponent(_btn_AuctionsHistoryforUser)
                 .addGap(18, 18, 18)
                 .addComponent(_btn_WonBidsHistoryforUser)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(_btn_ListParticipants)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(_btn_Back)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -140,7 +153,7 @@ public class MenuAll extends javax.swing.JFrame {
                 .addComponent(_lbl_Other)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,6 +188,12 @@ public class MenuAll extends javax.swing.JFrame {
         this.setVisible(false);
         new GetIdentification(previuos, 5).setVisible(true);
     }//GEN-LAST:event__btn_WonBidsHistoryforUserActionPerformed
+
+    private void _btn_ListParticipantsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_ListParticipantsActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new ListAuctions(previuos, 10, "", "",0).setVisible(true);
+    }//GEN-LAST:event__btn_ListParticipantsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,6 +235,7 @@ public class MenuAll extends javax.swing.JFrame {
     private javax.swing.JButton _btn_Back;
     private javax.swing.JButton _btn_BidsHistoryOfProduct;
     private javax.swing.JButton _btn_ListAuctions;
+    private javax.swing.JButton _btn_ListParticipants;
     private javax.swing.JButton _btn_WonBidsHistoryforUser;
     private javax.swing.JLabel _lbl_Other;
     private javax.swing.JPanel jPanel1;

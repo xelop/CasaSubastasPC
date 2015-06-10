@@ -34,6 +34,7 @@ public class AdministratorMenu extends javax.swing.JFrame {
         _btn_ModifyAgent = new javax.swing.JButton();
         _btn_More = new javax.swing.JButton();
         _btn_ModifyAgent1 = new javax.swing.JButton();
+        _btn_ChangeHouse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,6 +82,13 @@ public class AdministratorMenu extends javax.swing.JFrame {
             }
         });
 
+        _btn_ChangeHouse.setText("Modify House");
+        _btn_ChangeHouse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_ChangeHouseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,7 +105,8 @@ public class AdministratorMenu extends javax.swing.JFrame {
                         .addComponent(_btn_More, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(_btn_ModifyAgent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(_btn_ActivateAgent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(_btn_ModifyAgent1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(_btn_ModifyAgent1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(_btn_ChangeHouse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -115,9 +124,11 @@ public class AdministratorMenu extends javax.swing.JFrame {
                 .addComponent(_btn_ModifyAgent)
                 .addGap(18, 18, 18)
                 .addComponent(_btn_ModifyAgent1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(_btn_ChangeHouse)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(_btn_More)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -160,6 +171,13 @@ public class AdministratorMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event__btn_ModifyAgent1ActionPerformed
 
+    private void _btn_ChangeHouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_ChangeHouseActionPerformed
+        // TODO add your handling code here:
+
+        this.setVisible(false);
+        new ModifyHouse(this).setVisible(true);
+    }//GEN-LAST:event__btn_ChangeHouseActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -197,6 +215,7 @@ public class AdministratorMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btn_ActivateAgent;
+    private javax.swing.JButton _btn_ChangeHouse;
     private javax.swing.JButton _btn_CreateAgent1;
     private javax.swing.JButton _btn_ModifyAgent;
     private javax.swing.JButton _btn_ModifyAgent1;
