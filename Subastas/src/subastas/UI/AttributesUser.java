@@ -318,7 +318,7 @@ public class AttributesUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(this._txt_Alias.getText().isEmpty()||(this._txt_Alias.getText().length() > 8&&this._txt_Alias.getText().length() < 15)){
+        if(this._txt_Alias.getText().isEmpty()||(this._txt_Password.getText().length() >= 8&&this._txt_Password.getText().length() <= 15 && this._txt_Alias.getText().length() <20)){
 
 
             boolean error = false;
@@ -384,7 +384,7 @@ public class AttributesUser extends javax.swing.JFrame {
             this.dispose();
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Password or Alias muts be between 8 and 15 characters");
+            JOptionPane.showMessageDialog(null, "Password must be between 8 and 15 characters. Alias must have less than 20 characters");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
