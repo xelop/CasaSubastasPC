@@ -127,15 +127,23 @@ public class LogIn extends javax.swing.JFrame {
         if(!error){
             int type = connection.getUser(_txt_Username.getText());
             if(type == -5 &&_chk_agent.isSelected()){
+                if(connection.isSuspendido()){
+                    JOptionPane.showMessageDialog(null, "El usuario esta suspendido");
+                }else{
                 new AgentMenu().setVisible(true);
                 this.dispose();
+                }
             }else if(type == -6 &&_chk_administration.isSelected()){
                 new AdministratorMenu().setVisible(true);
                 this.dispose();
             }else if(type == -7){
                 if(connection.verifyPassword(_txt_Username.getText(), _txt_Password.getText())){
+                    if(connection.isSuspendido()){
+                    JOptionPane.showMessageDialog(null, "El usuario esta suspendido");
+                }else{
                     new ParticipantsMenu().setVisible(true);
                     this.dispose();
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null, "Incorrect Password");
                 }

@@ -44,7 +44,7 @@ public class DataBaseConnection {
         return Instance;   
     }
     public boolean setConnection(String pUsername, String pPassword){
-        if(Connection == null){
+        
             try {
            
                 String URL = "jdbc:sqlserver://localhost;user="+pUsername+";password="+pPassword+";database=SUBASTAS";
@@ -62,8 +62,7 @@ public class DataBaseConnection {
                 return true;
 
             }
-        }
-        return false;
+        
     }
     private void sendError(String pMessage){
         JOptionPane.showMessageDialog(null, pMessage);
@@ -549,6 +548,23 @@ public class DataBaseConnection {
         } catch (SQLException ex) {
             sendError(ex.getMessage());
             return null;
+        }
+    }
+    public Boolean isSuspendido(){
+        try{
+            StoredProcCall = Connection.prepareCall("{call USP_GetSuspendido(?,?)}");
+            StoredProcCall.setString(1, _UserAlias);
+            StoredProcCall.registerOutParameter(2,Types.BIT);
+            StoredProcCall.execute();
+            Byte x=StoredProcCall.getByte(2);
+            if(x.intValue()==1){
+                return true;
+            }else{
+                return false;
+            }
+        }catch (SQLException ex){
+            sendError(ex.getMessage());
+            return true;
         }
     }
     public Boolean modifyValues(Integer pComission, Integer pDecrease){
