@@ -105,9 +105,9 @@ public class DataBaseConnection {
     }
     
     public boolean createAgent(int pIdentification, String pNickName, String pPassword, 
-            String pName, String pLastName1, String pLastName2){
+            String pName, String pLastName1, String pLastName2, String pAddress){
         try {
-            StoredProcCall= Connection.prepareCall("{? = call USP_CreateAgente(?,?,?,?,?,?)}");
+            StoredProcCall= Connection.prepareCall("{? = call USP_CreateAgente(?,?,?,?,?,?,?)}");
             
             StoredProcCall.registerOutParameter(1, Types.INTEGER);
             
@@ -117,6 +117,7 @@ public class DataBaseConnection {
             StoredProcCall.setString(5, pName);
             StoredProcCall.setString(6, pLastName1);
             StoredProcCall.setString(7, pLastName2);
+            StoredProcCall.setString(8, pAddress);
             StoredProcCall.execute();
             int error = StoredProcCall.getInt(1);
             System.out.println(error);
@@ -203,9 +204,9 @@ public class DataBaseConnection {
     }
     
     public boolean modifyAgent(int pIdentification, String pNickName, String pPassword, 
-            String pName, String pLastName1, String pLastName2){
+            String pName, String pLastName1, String pLastName2, String pAddress){
         try {
-            StoredProcCall= Connection.prepareCall("{call USP_UpdateAgente(?,?,?,?,?,?)}");
+            StoredProcCall= Connection.prepareCall("{call USP_UpdateAgente(?,?,?,?,?,?,?)}");
             
             StoredProcCall.setInt(1,pIdentification);
             StoredProcCall.setString(2,pNickName);
@@ -213,6 +214,7 @@ public class DataBaseConnection {
             StoredProcCall.setString(4, pName);
             StoredProcCall.setString(5, pLastName1);
             StoredProcCall.setString(6, pLastName2);
+            StoredProcCall.setString(7, pAddress);
             StoredProcCall.execute();
             return false;
             
@@ -223,9 +225,9 @@ public class DataBaseConnection {
     }
     
     public boolean createParticipant(int pIdentification, String pNickName, String pPassword, 
-            String pName, String pLastName1, String pLastName2, String pCreditNumber, String pEmail){
+            String pName, String pLastName1, String pLastName2, String pCreditNumber, String pEmail, String pAddress){
         try {
-            StoredProcCall= Connection.prepareCall("{? = call USP_CreateParticipante(?,?,?,?,?,?,?,?)}");
+            StoredProcCall= Connection.prepareCall("{? = call USP_CreateParticipante(?,?,?,?,?,?,?,?,?)}");
             
             StoredProcCall.registerOutParameter(1, Types.INTEGER);
             
@@ -237,6 +239,7 @@ public class DataBaseConnection {
             StoredProcCall.setString(7, pLastName2);
             StoredProcCall.setString(8, pCreditNumber);
             StoredProcCall.setString(9, pEmail);
+            StoredProcCall.setString(10, pAddress);
             StoredProcCall.execute();
             int error = StoredProcCall.getInt(1);
             if(error == -4){
@@ -292,9 +295,9 @@ public class DataBaseConnection {
     }
     
     public boolean modifyParticipant(int pIdentification, String pNickName, String pPassword, 
-            String pName, String pLastName1, String pLastName2, String pEmail){
+            String pName, String pLastName1, String pLastName2, String pEmail, String pAddress){
         try {
-            StoredProcCall= Connection.prepareCall("{call USP_UpdateParticipante(?,?,?,?,?,?,?)}");
+            StoredProcCall= Connection.prepareCall("{call USP_UpdateParticipante(?,?,?,?,?,?,?,?)}");
             
             StoredProcCall.setInt(1,pIdentification);
             StoredProcCall.setString(2,pNickName);
@@ -303,6 +306,7 @@ public class DataBaseConnection {
             StoredProcCall.setString(5, pLastName1);
             StoredProcCall.setString(6, pLastName2);
             StoredProcCall.setString(7, pEmail);
+            StoredProcCall.setString(8, pAddress);
             StoredProcCall.execute();
             StoredProcCall.close(); //buena practica!!!!!!!!!!!!
             return false;

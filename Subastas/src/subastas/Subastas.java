@@ -22,6 +22,7 @@ public class Subastas {
         //DataBaseConnection x= DataBaseConnection.getInstance();
         //x.setConnection(null, null);
         new LogIn().setVisible(true);
+        
     }
     
 }

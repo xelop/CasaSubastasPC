@@ -90,6 +90,8 @@ public class AttributesUser extends javax.swing.JFrame {
         _txt_Credit = new javax.swing.JTextField();
         _lbl_Email = new javax.swing.JLabel();
         _txt_Email = new javax.swing.JTextField();
+        _lbl_Credit1 = new javax.swing.JLabel();
+        _txt_Address = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -135,6 +137,14 @@ public class AttributesUser extends javax.swing.JFrame {
 
         _lbl_Email.setText("Email");
 
+        _lbl_Credit1.setText("Address");
+
+        _txt_Address.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                _txt_AddressKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -142,28 +152,27 @@ public class AttributesUser extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(_lbl_Identification)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(_txt_Alias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_txt_Name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_txt_LastName1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_txt_LastName2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_txt_Identification, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(_txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(_lbl_Credit)
-                        .addGap(18, 18, 18)
-                        .addComponent(_txt_Credit, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(_lbl_Email))
+                    .addComponent(_lbl_Identification)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(_lbl_Email)
+                    .addComponent(_lbl_Credit)
+                    .addComponent(_lbl_Credit1))
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(_txt_Address, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(_txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(_txt_Alias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(_txt_Name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(_txt_LastName1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(_txt_LastName2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(_txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(_txt_Identification, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(_txt_Credit, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -194,21 +203,19 @@ public class AttributesUser extends javax.swing.JFrame {
                         .addComponent(_txt_LastName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11)
                         .addComponent(_txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(_lbl_Email)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(_txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(_lbl_Credit))
-                    .addComponent(_txt_Credit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(_lbl_Email)
+                    .addComponent(_txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(_txt_Credit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(_lbl_Credit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(_lbl_Credit1)
+                    .addComponent(_txt_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton1.setText("Accept");
@@ -316,14 +323,15 @@ public class AttributesUser extends javax.swing.JFrame {
 
             boolean error = false;
             if(_Action == 1){ //modify
-                String[] values = new String[5];
+                String[] values = new String[6];
                 values[0] = this._txt_Alias.getText();
                 values[1] = this._txt_Password.getText();
                 values[2] = this._txt_Name.getText();
                 values[3] = this._txt_LastName1.getText();
                 values[4] = this._txt_LastName2.getText();
+                values[5] = this._txt_Address.getText();
 
-                for(int counter = 0; counter < 5; counter++){
+                for(int counter = 0; counter < 6; counter++){
                     if(values[counter].isEmpty()){
                         values[counter]=null;
                     }
@@ -332,12 +340,12 @@ public class AttributesUser extends javax.swing.JFrame {
                     values[1] = HashTextTest.sha2(this._txt_Password.getText());
                 }
                 error =_Connection.modifyAgent(this._Identification , values[0], values[1], values[2], values[3],
-                        values[4]);
+                        values[4], values[5]);
 
             }else if(_Action == 2){//create agent
                 error =_Connection.createAgent(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
                         ,HashTextTest.sha2(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
-                        ,this._txt_LastName2.getText());
+                        ,this._txt_LastName2.getText(), this._txt_Address.getText());
 
             }else if(_Action == 3){ 
 
@@ -346,17 +354,18 @@ public class AttributesUser extends javax.swing.JFrame {
                     credit=null;
                 error =_Connection.createParticipant(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
                         , HashTextTest.sha2(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
-                        ,this._txt_LastName2.getText(), credit, this._txt_Email.getText());
+                        ,this._txt_LastName2.getText(), credit, this._txt_Email.getText(), this._txt_Address.getText());
             }else if(_Action == 4){
-                String[] values = new String[6];
+                String[] values = new String[7];
                 values[0] = this._txt_Alias.getText();
                 values[1] = this._txt_Password.getText();
                 values[2] = this._txt_Name.getText();
                 values[3] = this._txt_LastName1.getText();
                 values[4] = this._txt_LastName2.getText();
                 values[5] = this._txt_Email.getText();
+                values[6] = this._txt_Address.getText();
 
-                for(int counter = 0; counter < 5; counter++){
+                for(int counter = 0; counter < 7; counter++){
                     if(values[counter].isEmpty()){
                         values[counter]=null;
                     }
@@ -365,7 +374,7 @@ public class AttributesUser extends javax.swing.JFrame {
                     values[1] = HashTextTest.sha2(this._txt_Password.getText());
                 }
                 error =_Connection.modifyParticipant(this._Identification , values[0], values[1], values[2], values[3],
-                        values[4], values[5]);
+                        values[4], values[5], values[6]);
             }
             if(!error){
                 if(!_Telephones.isEmpty()){
@@ -421,6 +430,10 @@ public class AttributesUser extends javax.swing.JFrame {
             _txt_NewTelephone.setText(""+_txt_NewTelephone.getText().substring(0, _txt_NewTelephone.getText().length() - 1));
     }//GEN-LAST:event__txt_NewTelephoneKeyReleased
 
+    private void _txt_AddressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event__txt_AddressKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event__txt_AddressKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -468,8 +481,10 @@ public class AttributesUser extends javax.swing.JFrame {
     private javax.swing.JButton _btn_Add;
     private javax.swing.JLabel _lbl_Action;
     private javax.swing.JLabel _lbl_Credit;
+    private javax.swing.JLabel _lbl_Credit1;
     private javax.swing.JLabel _lbl_Email;
     private javax.swing.JLabel _lbl_Identification;
+    private javax.swing.JTextField _txt_Address;
     private javax.swing.JTextField _txt_Alias;
     private javax.swing.JTextField _txt_Credit;
     private javax.swing.JTextField _txt_Email;
