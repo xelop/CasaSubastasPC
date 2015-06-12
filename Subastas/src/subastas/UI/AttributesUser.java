@@ -343,12 +343,13 @@ public class AttributesUser extends javax.swing.JFrame {
                         values[4], values[5]);
 
             }else if(_Action == 2){//create agent
+                _Identification = Integer.parseInt(this._txt_Identification.getText());
                 error =_Connection.createAgent(Integer.parseInt(this._txt_Identification.getText()), this._txt_Alias.getText()
                         ,HashTextTest.sha2(this._txt_Password.getText()), this._txt_Name.getText(), this._txt_LastName1.getText()
                         ,this._txt_LastName2.getText(), this._txt_Address.getText());
 
             }else if(_Action == 3){ 
-
+                _Identification = Integer.parseInt(this._txt_Identification.getText());
                 String credit= this._txt_Credit.getText();
                 if(credit.isEmpty())
                     credit=null;
@@ -378,7 +379,7 @@ public class AttributesUser extends javax.swing.JFrame {
             }
             if(!error){
                 if(!_Telephones.isEmpty()){
-                    _Connection.insertTelephones(Integer.parseInt(this._txt_Identification.getText()), _Telephones);
+                    _Connection.insertTelephones(_Identification, _Telephones);
                 }
             _Previuos.setVisible(true);
             this.dispose();
